@@ -1,0 +1,55 @@
+{% extends 'manufacturer_navbar.html' %}
+{% load static %}
+{% block title %}Packing List{% endblock title %}
+{% block content %}
+<div class="container">
+    <form action="" method="post">
+        <div class="row">
+            {% comment %} Packing list {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Packing List Detail</h3>
+                <div class="mb-3">Client :</label>
+                    <input type="text" class="form-control" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sales Order* :</label>
+                    <input type="text" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Reference :</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Sales Order Date* :</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Expected Shipment Date* :</label>
+                    <input type="date" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Packing Status :</label>
+                    <input type="text" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Delivery Method :</label>
+                    <input type="text" class="form-control">
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Shipping Status :</label>
+                    <input type="text" class="form-control">
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+{% endblock content %}

@@ -1,0 +1,4 @@
+<option value="">select product</option>
+{% for product_item in product %}
+<option value="{{product_item.id}}">{{product_item.item_name}}</option>
+{% endfor %}

@@ -1,0 +1,187 @@
+  /* this class is used to centeresd the login form for customer & manufacturer */
+  .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+.txt{
+    color: white;
+}
+
+/* The side navigation menu */
+.sidenav {
+  height: 100%;
+  width: 0; 
+  position: fixed;
+  z-index: 1; 
+  top: 0; 
+  right: 0;
+  background-color: whitesmoke;
+  overflow-x: hidden;
+  padding-top: 60px; 
+  transition: 0.3s; 
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  /* font-size: 25px; */
+  color: black;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: black;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 36px;
+  margin-left: 0px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+  transition: margin-left .5s;
+  padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+/* @media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 10px;}
+} */
+
+/* remove border from list group */
+li.borderless { border: 0 none; }
+
+
+/* thead, tbody { display: block; } */
+
+thead{
+  font-size: 15px;
+}
+tr {
+    font-size: 15px;
+    /* overflow-y: hidden;    Trigger vertical scroll    */
+    /* overflow: scroll;  Hide the horizontal scroll */
+}
+
+table {
+  width: 100%;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+
+/* drop down button */
+.side a, .dropdown-btn {
+  padding: 3px 4px 3px 8px;
+  text-decoration: none;
+  /* font-size: 20px; */
+  color: #ed8b00;
+  display: block;
+  border: none;
+  background: none;
+  width:100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding: 6px 8px 6px 16px;
+}
+
+.fa-caret-down {
+  float: right;
+  padding: 6px 8px 6px 16px;
+}
+
+/* .side {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+} */
+
+
+
+.dropdown-check-list {
+  display: inline-block;
+}
+
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+.dropdown-display{
+  display: block;
+}
+
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+
+.dropdown-check-list.visible .anchor {
+  color: #0094ff;
+}
+
+.dropdown-check-list.visible .items {
+  display: block;
+}
+
+.hoverColor a:hover{
+  color: white;
+}
+a, a:hover, a:focus {
+  color: white;
+}

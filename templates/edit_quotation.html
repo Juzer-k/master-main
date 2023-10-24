@@ -1,0 +1,208 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Create Quotation{% endblock title %}
+{% block content %}
+
+<div class="container">
+    {% comment %} <img src="{%static 'images/logo.png'%}" alt="" width="100%" height="100%"> {% endcomment %}
+    <form action="" method="post" enctype="multipart/form-data" product-data-url="{% url 'load-product' %}">
+        {% comment %} <div class="centered"></div> {% endcomment %}
+        {% csrf_token %}
+        <div class="row">
+            {% comment %} Sales Order Detail {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Quotation Detail</h3>
+
+                {% comment %} <div class="mb-3">
+                    <label class="form-label">Type* :</label>
+                      <select class="form-control unitType" onchange="" name="distributor" id="" autofocus  required>
+                        <option value="">Select Customer Type</option>
+                        <option value="Distributer">Distributer</option>
+                        <option value="Manufacturer">Manufacturer</option>
+                         <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option>
+                        
+                    </select>  
+                </div> {% endcomment %}
+                
+                <div class="mb-3">
+                    <label class="form-label">Customer* :</label>
+                    {% comment %} <div id="list1" class="dropdown-check-list dropdown-toggle" data-toggle="dropdown">
+                        <input type="button" class="anchor" value="Select Manufacturer / Distributer Unit Name">
+                        <ul class="items dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for dispay_unit in display_manufacturing_unit %}
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="{{dispay_unit.id}}" name="quotation" id="Checkme2">
+                                        <label class="form-check-label" for="Checkme2">{{dispay_unit.company_name}}</label>
+                                    </div>
+                                </a>
+                                
+                            </li>
+                            {% endfor %}
+                        </ul>
+                      </div> {% endcomment %}
+                      <input type="text" class="form-control my-2" value="{{quotation.assigning}}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Status* :</label>
+                      <select class="form-control unitType" onchange="" name="status" autofocus  required>
+                          <option value="{{quotation.status}}" selected>{{quotation.status}}</option>
+                          <option value="Placed">Placed</option>
+                          <option value="Accepted">Accepted</option>
+                          <option value="Rejected">Rejected</option>
+                          <option value="Cancel">Cancel</option>
+                    </select>
+                </div>
+                
+            </div>
+         
+        </div>    
+
+        <hr>
+
+        <h2 class="fw-bold">Product Detail</h2>
+        <div class="row">
+
+            <table class="table align-middle">
+                <thead>
+                    <tr class="bg-info">
+                        {% comment %} <th scope="col">mf unit</th> {% endcomment %}
+                        <th scope="col">Product Name & Product Length*</th>
+                        {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
+                        <th scope="col">Quantity*</th>
+                        {% comment %} <th scope="col">Bundle Number*</th> {% endcomment %}
+                        <th scope="col">Price*</th>
+                        <th scope="col">GST Percentage*</th>
+                        <th scope="col">Total Cost*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in product_list %}
+                    <tr>
+                        
+                       
+                        
+                        <td scope="row">
+                            <select name="product_name" value="{{i.id}}"
+                                    class="productName product form-control my-2">
+                                <option value="{{i.id}}">{{i.tempproduct.item_name}}</option>
+                                {% comment %} <option value="Select Product">Select Product</option>
+                                {% for i in product %}
+                                <option value="{{i.id}}">{{i.item_name}}</option>
+                                {% endfor %} {% endcomment %}
+                            </select>
+                        </td>
+                        
+                        
+                        <td>
+                            <input type="text" class="form-control my-2"  id="{{i.id}}_quantity"
+                                   onchange="changeqty(this);"
+                                   name="quantity" value="{{i.quantity}}" required>
+                        </td>
+                        
+                        {% comment %} <td>
+                            <input type="text" class="form-control my-2" value="" name="bundle_number" required>
+                        </td> {% endcomment %}
+                        <td>
+                            <input type="text" class="form-control my-2" id="{{i.id}}_price"
+                                   value="{{i.price}}" name="price" required>
+                        </td>
+
+                        <td>
+                            <input type="text" class="form-control my-2" value="{{i.gst}}" id="{{i.id}}_gst"
+                                   name="gst" required readonly>
+                        </td>
+                        
+                        <td>
+                            <input type="text" class="amount form-control my-2" id="{{i.id}}_amount"
+                                   value="{{i.cost_of_product}}" name="product_cost" required readonly>
+                        </td>
+                        
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                 <div class="mb-3">
+                    <label class="form-label fw-bold">Total Amount :</label>
+                    <input type="text" id="total" class="form-control w-75" name="total_amount" value="{{quotation.total_amount}}" readonly>
+                 </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+      <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label">Terms & Conditions</label>
+                <textarea class="form-control" rows="3" name="terms_and_conditions">{{quotation.terms_and_condition}}</textarea>
+            </div>
+        </div>
+      
+
+        </div>
+       
+
+<br><br>
+        <div class="container text-end">
+            {% comment %} <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a> {% endcomment %}
+            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Update Quotation</button>
+        </div>
+    </form>
+</div>
+<br><br><br>
+<script>
+    var checkList = document.getElementById('list1');
+    checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+      if (checkList.classList.contains('visible'))
+        checkList.classList.remove('visible');
+      else
+        checkList.classList.add('visible');
+    }
+    
+    document.addEventListener('click', function(evt) {
+      var isClickedOutside = !checkList.contains(evt.target);
+      if (isClickedOutside && checkList.classList.contains('visible')) {
+        checkList.classList.remove('visible');
+      }
+    });
+
+</script>
+<script>
+    function changeqty(event){
+        debugger;
+        a = event.id;
+        b = a.split('_')[0];
+        const price  = document.getElementById(b+'_price').value;
+        const gst  = document.getElementById(b+'_gst').value;
+        const amount  = document.getElementById(b+'_amount').value;
+        qty = 0;
+        if (event.value){
+            qty = event.value;
+        }
+        else{
+            qty = document.getElementById(a).value;
+        }
+
+        var totalCost = Number(price * qty) + Number((price * gst * qty) / 100);
+        totalCost = Number(totalCost).toFixed(2);
+        document.getElementById(b+'_amount').value = totalCost;
+        document.getElementById('total').value =  Number(Number(document.getElementById('total').value) + Number(totalCost) - Number(amount)).toFixed(2);
+    }
+
+    function changePrice(event){
+    }
+
+
+</script>
+{% endblock content %}

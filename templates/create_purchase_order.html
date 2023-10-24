@@ -1,0 +1,294 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Create Purchase Order{% endblock title %}
+{% block content %}
+
+<div class="container">
+    {% comment %} <img src="{%static 'images/logo.png'%}" alt="" width="100%" height="100%"> {% endcomment %}
+    <form action="" method="post" enctype="multipart/form-data" id="purchaseOrderForm" product-data-url="{% url 'load-purchase-order-product'%}" load-manufacturer-distributor-url="{% url 'load-manufacturer-distributor' %}" load-purchase-order-product-url="{% url 'load-purchase-product-cost' %}">
+        {% comment %} <div class="centered"></div> {% endcomment %}
+        {% csrf_token %}
+        <div class="row">
+            {% comment %} Sales Order Detail {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Purchase Order Detail</h3>
+
+                <div class="mb-3">
+                    <label class="form-label">Type* :</label>
+                    {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
+                      <select class="form-control unitTypePurchaseOrder" onchange="" name="distributor" id="" autofocus  required>
+                        <option value="">Select Customer Type</option>
+                        <option value="Distributer">Distributer</option>
+                        <option value="Manufacturer">Manufacturer</option>
+                           <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option>                     
+                        
+                    </select>  
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Customer* :</label>
+                      <select class="form-control vendorUnitName distManuName" onchange="" name="vendor_unit_name" id="">
+                        <option selected >Select Customer</option>
+                        {% comment %} {% for vendor_unit in display_vendor_unit %}
+                        <option value="{{vendor_unit.company_name}}">{{vendor_unit.company_name}}</option>
+                        {% endfor %} {% endcomment %}
+                    </select>
+                    <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Manufacturer / Distributer Unit</a>
+                </div>
+                
+               
+
+                <div class="mb-3">
+                    <label class="form-label">Purchase Order Date* :</label>
+                    <input type="date" class="form-control" name="purchase_order_date" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Expected Shipment Date* :</label>
+                    <input type="date" class="form-control" name="expected_shipment_date" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Payment Term :</label>
+                    <select class="form-control" name="paymentterm">
+                        <option selected >Select Payment Term</option>
+                        <option>Advance Paid</option>
+                        <option>Due next of the month</option>
+                        <option>Due end of the month</option>
+                        <option>Due on receipt</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Delivery Method :</label>
+                    <input type="text" class="form-control" name="delivery_method">
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Customer Sales Person* :</label>
+                            <input type="text" class="form-control" name="customer_sales_person" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Customer Phone number* :</label>
+                            <input type="text" class="form-control" name="customer_phone_number" required
+                                   maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="col-6">
+                <br><br><br><br><br><br><br><br><br>
+                
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+                
+            </div>
+        </div>    
+
+        <hr>
+
+        <h2 class="fw-bold">Product Detail</h2>
+        <div class="row">
+
+            <table class="table align-middle">
+                <thead>
+                    <tr class="bg-info">
+                        {% comment %} <th scope="col">mf unit</th> {% endcomment %}
+                        <th scope="col">Product Name & Product Length</th>
+                        {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
+                        <th scope="col">Weight Calculation</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Bundle Number</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">GST</th>
+                        <th scope="col">Total Cost</th>
+                        <th scope="col">Auto Logistic Fitment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>                
+                    <td scope="row">
+                            {% comment %} <input type="text" class="form-control my-2" name="product_name" value=""> {% endcomment %}
+                            <select name="product_name" id = "0_product_name" class="product form-control my-2" onchange="selectProduct(this)">
+
+                            </select>
+                        </td>
+                        {% comment %} <td>
+                            <input type="text" class="form-control my-2" name="product_length" value="">
+                            <select name="product_length" class="productLength form-control my-2">
+
+                            </select>
+                        </td> {% endcomment %}
+                        <td>
+                            <input type="text"  class="form-control my-2" name="weight_calculation" value="">
+                        </td>
+                        <td>
+                            <input type="text" id="0_qty" onchange='changeqty(this)' id="0_qty" class="form-control my-2" name="quantity" value="">
+                        </td>
+                        
+                        <td>
+                            <input type="text" class="form-control my-2" value="" name="bundle_number">
+                        </td>
+                        
+                        <td>
+                            <input type="text"  id= "0_price" class="form-control my-2" value="" name="price">
+                        </td>
+                        <td>
+                            <input type="text" id = "0_gst" class="form-control my-2" value="" name="gst" readonly>
+                        </td>
+                        <td>
+                            <input type="text" id = "0_amount" class="amount form-control my-2" value="" name="product_cost" readonly>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control my-2" name="auto_logistic" value="">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input class="btn btn-sm fw-bold w-auto" id="purchaseAddRow" type="button" style="background-color:#ed8b00;" value="+ Add Product">
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                 <div class="mb-3">
+                    <label class="form-label fw-bold">Total Amount :</label>
+                    <input type="text" id="total" class="form-control w-75" name="total_amount" readonly>
+                 </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+      <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label">Terms & Conditions</label>
+                <textarea class="form-control" rows="3" name="terms_and_conditions"></textarea>
+            </div>
+        </div>
+      </div>
+
+      {% comment %} <div class="row">
+        <div class="col-3">
+            <div class="form-group">
+                <label class="form-label">Upload Sales Order Invoice</label>
+                <input type="file" class="form-control-file" name="sales_order_file">
+            </div>
+        </div>
+        <div class="col-3">
+            <label class="form-label">Upload Delivery Challan</label>
+            <input type="file" class="form-control-file" name="delivery_challan">
+        </div>
+        <div class="col-3">
+            <label class="form-label">Upload Packing List</label>
+            <input type="file" class="form-control-file" name="packing_list">
+        </div>
+        <div class="col-3">
+            <label class="form-label">Uplaod EV List</label>
+            <input type="file" class="form-control-file" name="ev_list">
+        </div> {% endcomment %}
+    
+<br><br>
+        <div class="container text-end">
+            <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a>
+            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Order</button>
+        </div>
+    </form>
+</div>
+<br><br><br>
+<script>
+    count = 0
+    $("#purchaseAddRow").click(function () {
+        count+=1
+
+        let add_input_feilds_to_table="<tr>"
+        add_input_feilds_to_table+="<td><select name='product_name' id='"+count+"_product' class='productName product form-control my-2' onchange='selectProduct(this)'>"+proddata+"</select></td>"
+        add_input_feilds_to_table+="<td><input type='text' class='form-control my-2' name='weight_calculation'></td>"
+        add_input_feilds_to_table+="<td><input type='text' id='"+count+"_qty' onchange='changeqty(this)' class='form-control my-2' name='quantity'></td>"
+        add_input_feilds_to_table+="<td><input type='text' id='"+count+"_qty' class='form-control my-2' name='bundle_number'></td>"
+        add_input_feilds_to_table+="<td><input type='text' id='"+count+"_price' class='price form-control my-2' name='price'></td>"
+        add_input_feilds_to_table+="<td><input type='text' id='"+count+"_gst' class='gst form-control my-2' name='gst' readonly></td>"
+        add_input_feilds_to_table+="<td><input type='text' id='"+count+"_amount' class='amount totalCost form-control my-2' name='product_cost' readonly></td>"
+        add_input_feilds_to_table+="<td><input type='text'  class='form-control my-2' name='auto_logistic'></td>"
+        add_input_feilds_to_table+="<td><input class='removeFeild btn btn-danger btn-sm my-2' id='"+count+"_remove' type='button' value='-'><td>"
+        add_input_feilds_to_table+="</tr>";
+        $("table tbody").append(add_input_feilds_to_table);
+        });
+        // remove button for product detail
+        $("table tbody").on('click','.removeFeild' ,function(){
+            console.log($(this).attr('id'))
+            o = $(this).attr('id')
+            j = o.split('_')[0]
+            console.log('jjjjjj',j)
+            
+            debugger;
+            totalCost = document.getElementById(j+'_amount').value;
+            console.log('ttttttt',totalCost)
+            document.getElementById('total').value = Number(Number(document.getElementById('total').value) - Number(totalCost)).toFixed(2);
+            $(this).parent().parent().remove();
+      });
+
+      function selectProduct(event){
+        //alert(event.id)
+        a = event.id
+        b = a.split('_')[0]
+        var url = $("#purchaseOrderForm").attr("load-purchase-order-product-url");
+        console.log('url ',url)
+        dprod = '' 
+        if (event.value){
+            dprod = event.value
+        }
+        else{
+            dprod = document.getElementById(a).value
+        }
+        $.ajax({
+            url: url,
+            data: {
+              'product_name': dprod
+            },
+            success: function (data) {
+                //debugger;
+                if (data){
+                    const price = data.split('-')[0];
+                    const gst = data.split('-')[1];
+                        document.getElementById(b+'_price').value = price
+                        document.getElementById(b+'_gst').value = gst
+                }
+            },
+            error:function(error){
+                alert('error', error)
+            }
+          });
+    }
+
+    function changeqty(event){
+        a = event.id;
+        b = a.split('_')[0];
+        const price  = document.getElementById(b+'_price').value;
+        const gst  = document.getElementById(b+'_gst').value;
+        const amount  = document.getElementById(b+'_amount').value;
+        qty = 0
+        if (event.value){
+            qty = event.value;
+        }
+        else{
+            qty = document.getElementById(a).value;
+        }
+        var totalCost = Number(price * qty) + Number((price * gst * qty) / 100);
+        totalCost = Number(totalCost).toFixed(2);
+        document.getElementById(b+'_amount').value = totalCost;
+        document.getElementById('total').value =  Number(Number(document.getElementById('total').value) + Number(totalCost) - Number(amount)).toFixed(2);
+    }
+
+</script>
+{% endblock content %}

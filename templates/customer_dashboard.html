@@ -1,0 +1,238 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Customer DashBoard{% endblock title %}
+{% block content %}
+<div class="container-fluid">
+
+
+  <div class="dashboard-cards-container mb-4">
+    <div class="row">
+        <div class="col-md-3 my-3">
+            <div class="dashboard-cards first_card">
+                <span class="dash-count">{{total_order_accepted}}</span>
+                <p class="dash-cards-title mb-0"><i class="fas fa-circle-check me-2"></i>Accepted Sales Order</p>
+            </div>
+        </div>
+  
+    
+        <div class="col-md-3 my-3">
+            <div class="dashboard-cards second_card">
+                <span class="dash-count">{{total_sales_order_placed}}</span>
+                <p class="dash-cards-title mb-0"><i class="fas fa-circle-check me-2"></i></i>Total Sales Order</p>
+            </div>
+        </div>
+ 
+ 
+        <div class="col-md-3 my-3">
+            <div class="dashboard-cards third_card">
+                <span class="dash-count">{{purchase_order_total}}</span>
+                <p class="dash-cards-title mb-0 fs-6"><i class="fas fa-circle-check me-2"></i>Accepted Purchase Order</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 my-3">
+          <div class="dashboard-cards forth_card">
+              <span class="dash-count">{{total_purchase_order_placed}}</span>
+              <p class="dash-cards-title mb-0"><i class="fas fa-circle-check me-2"></i>Total Purchase Order</p>
+          </div>
+      </div>
+    </div>
+ </div>
+
+  <h3 class="fw-bold">Sales Order To Be Delivered</h3>
+  {% if orders|length < 1 %} <h3 class="text-center fw-bold">No order Found</h3>
+    {% else %}
+    {% comment %} <div class="container text-end">
+      <a class="btn fw-bold" style="background-color:#ed8b00;" href="#">Packed</a>
+      <a class="btn fw-bold" style="background-color:#ed8b00;" href="#">Shipped</a>
+      <a class="btn fw-bold" style="background-color:#ed8b00;" href="#">Delivery Method</a>
+    </div> {% endcomment %}
+       {% comment %} for pagination {% endcomment %}
+       {% comment %} <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+          <li class="page-item">
+            {% if orders.has_previous %}
+            <a class="page-link" href="?page={{orders.previous_page_number}}">&#10096; Previous</a>
+            {% endif %}
+          </li>
+          <li class="page-item"><a class="page-link">{{ orders.number }}</a></li>
+          <li class="page-item">
+            {% if orders.has_next %}
+            <a class="page-link" href="?page={{orders.next_page_number}}">Next &#10097;</a>
+            {% endif %}
+          </li>
+        </ul>
+      </nav> {% endcomment %}
+   
+    <div class="table-responsive">
+      <table class="table align-middle table-bordered">
+        <thead>
+          <tr style="text-transform: uppercase;" class="bg-info">
+            <th style="width: 200px; min-width: 200px;">Order Number</th>
+            <th class="" style="width: 200px; min-width: 200px;">Manufacturer Unit</th>
+            <th class="" style="width: 200px; min-width: 200px;">Order Date</th>
+            <th class="" style="width: 200px; min-width: 200px;">Expected Shipping</th>
+            <th class="" style="width: 200px; min-width: 200px;">Status</th>
+            {% comment %} <th>Manufacturer Contact</th> {% endcomment %}
+            <th class="" style="width: 200px; min-width: 200px;">Payment Term</th>
+            {% comment %} <th class="w-25">Delivery Method</th> {% endcomment %}
+            <th class="" style="width: 250px; min-width: 250px;">Customer Sales Person</th>
+            <th class="" style="width: 200px; min-width: 200px;">Action</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            {% comment %} <th scope="row">{{order.sales_order}}</th> {% endcomment %}
+            {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+            <th scope="row">S0-{{order.id}}</th>
+            <td>{{order.manufacturing_unit|upper}}</td>
+            <td>{{order.sales_order_date}}</td>
+            <td>{{order.exp_shipment_date}}</td>
+            {% if order.order_status == "order placed" %}
+        <td class="bg-info fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Accepted" %}
+        <td class="bg-success fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Accepted with change" %}
+        <td class="bg-success fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "In Production" %}
+        <td class="bg-primary fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Packed" %}
+        <td class="bg-secondary fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Shipped" %}
+        <td class="bg-dark text-light fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Delivered" %}
+        <td class="bg-warning fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+        {% if order.order_status == "Cancel" %}
+        <td class="bg-danger fw-bold">{{order.order_status|upper}}</td>
+        {% endif %}
+            {% comment %} {% for mf in mf_contact %}
+            <td>{{mf.contact_person|upper}}</td>
+            {% endfor %} {% endcomment %}
+            <td>{{order.payment_term}}</td>
+            {% comment %} <td>{{order.delivery_method|capfirst}}</td> {% endcomment %}
+            <td>{{order.customer_sales_person|upper}}</td>
+
+            <td class="w-25">
+             
+              <a href="{% url 'sales-order-update' order.id%}" class="btn fw-bold btn-sm" style="background-color:#ed8b00;">&#128393;<a>
+             
+              <a href="{% url 'customer-sales-order-view' order.id%}" class="bg-info mx-2 btn btn-sm">&#x1F441;</a>
+              <a href="{% url 'pdf-converter' order.id %}" target="_blank" class="btn btn-sm bg-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                  <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z"/>
+                </svg>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    </div>
+      <div>
+        <span>
+      
+        <span></span>
+        
+        </span>
+        </div>
+      {% endif %}
+
+
+  
+   
+      <h3 class="fw-bold mt-5">Purchase Order To Be Delivered</h3>
+      {% if purchase_order_filter|length < 1 %}
+       <h3 class="text-center fw-bold">No order Found</h3>
+        {% else %}
+    
+           
+           <div class="table-responsive">
+            <table class="table align-middle table-bordered">
+              <thead>
+                <tr style="text-transform: uppercase;" class="bg-info">
+                  <th scope="col" style="width: 200px; min-width: 200px;">Order Number</th>
+                  <th scope="col" style="width: 200px; min-width: 200px;" class="w-25">Manufacturing Unit</th>
+                  <th scope="col" style="width: 200px; min-width: 200px;">Order Date</th>
+                  <th scope="col" style="width: 250px; min-width: 250px;">Expected Shipment Date</th>
+                  <th scope="col" style="width: 200px; min-width: 200px;">Order Status</th>
+                  <th scope="col" style="width: 200px; min-width: 200px;">Contact Sales Person</th>
+                  <th scope="col" style="width: 200px; min-width: 200px;">Payment Term</th>
+                  {% comment %} <th scope="col">Manufacturing Unit Contact</th> {% endcomment %}
+                  <th scope="col" style="width: 200px; min-width: 200px;" class="w-25">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in purchase_order_filter %}
+                <tr>
+                  <th scope="row">P0-{{order.id}}</th>
+                  <td>{{order.manufacturing_unit|upper}}</td>
+                  <td>{{order.purchase_order_date}}</td>
+                  <td>{{order.exp_shipment_date}}</td>
+                  {% if order.order_status == "order placed" %}
+                  <td class="bg-info fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Accepted" %}
+                  <td class="bg-success fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Accepted with change" %}
+                  <td class="bg-success fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "In Production" %}
+                  <td class="bg-primary fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Packed" %}
+                  <td class="bg-secondary fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Shipped" %}
+                  <td class="bg-dark text-light fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Delivered" %}
+                  <td class="bg-warning fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  {% if order.order_status == "Cancel" %}
+                  <td class="bg-danger fw-bold">{{order.order_status|upper}}</td>
+                  {% endif %}
+                  <td>{{order.customer_sales_person|upper}}</td>
+                  <td>{{order.payment_term|upper}}</td>
+                  {% comment %} <td>{{order.manufacturer_contact_person_name|upper}}</td> {% endcomment %}
+          
+                  <td>
+                    <a href="{% url 'update-purchase-order' order.id%}" class="btn fw-bold btn-sm" style="background-color:#ed8b00;">&#128393;<a>
+                      <a href="{% url 'view-purchase-order' order.id%}" class="bg-info mx-2 btn btn-sm">&#x1F441;</a>
+                        <a href="{% url 'purchase-order-pdf-converter' order.id %}" target="_blank" class="btn btn-sm bg-warning">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                            <path d="M4.603 14.087a.81.81 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.68 7.68 0 0 1 1.482-.645 19.697 19.697 0 0 0 1.062-2.227 7.269 7.269 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a10.954 10.954 0 0 0 .98 1.686 5.753 5.753 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.856.856 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.712 5.712 0 0 1-.911-.95 11.651 11.651 0 0 0-1.997.406 11.307 11.307 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.793.793 0 0 1-.58.029zm1.379-1.901c-.166.076-.32.156-.459.238-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361.01.022.02.036.026.044a.266.266 0 0 0 .035-.012c.137-.056.355-.235.635-.572a8.18 8.18 0 0 0 .45-.606zm1.64-1.33a12.71 12.71 0 0 1 1.01-.193 11.744 11.744 0 0 1-.51-.858 20.801 20.801 0 0 1-.5 1.05zm2.446.45c.15.163.296.3.435.41.24.19.407.253.498.256a.107.107 0 0 0 .07-.015.307.307 0 0 0 .094-.125.436.436 0 0 0 .059-.2.095.095 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a3.876 3.876 0 0 0-.612-.053zM8.078 7.8a6.7 6.7 0 0 0 .2-.828c.031-.188.043-.343.038-.465a.613.613 0 0 0-.032-.198.517.517 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822.024.111.054.227.09.346z"/>
+                          </svg>
+                        </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          <div>
+            <span>
+          
+            <span></span>
+            
+            </span>
+            </div>
+          {% endif %}
+      
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,384 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Create Sales Order{% endblock title %}
+{% block content %}
+
+<div class="container">
+    {% comment %} <img src="{%static 'images/logo.png'%}" alt="" width="100%" height="100%"> {% endcomment %}
+    <form action="" method="post" id="salesOrderForm" enctype="multipart/form-data" product-data-url="{% url 'load-product' %}" load-manufacturer-distributor-url="{% url 'load-manufacturer-distributor' %}" product-cost-url="{% url 'load-product-cost' %}">
+        {% comment %} <div class="centered"></div> {% endcomment %}
+        {% csrf_token %}
+        <div class="row">
+            {% comment %} Sales Order Detail {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Sales Order Detail</h3>
+                <div class="mb-3">
+                    <label class="form-label">Type* :</label>
+                    {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
+                      <select class="form-control unitType" onchange="" name="distributor" id="" autofocus  required>
+                        <option value="">Select Customer Type</option>
+                        <option value="Distributer">Distributer</option>
+                        <option value="Manufacturer">Manufacturer</option>
+                        <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option>
+                        
+                    </select>  
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Customer* :</label>
+                    {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
+                   
+                    {% comment %} manufacturerUnitName {% endcomment %}
+                      <select class="form-control distManuName" onchange="" name="manufacturer_unit_name" id="" required>
+                        <option selected >Select Customer</option>
+                        {% comment %} <option selected >Select Manufacturer / Distributer Unit</option>
+                        {% for manufacturing_unit in display_manufacturing_unit %}
+                        <option value="{{manufacturing_unit.company_name}}">{{manufacturing_unit.company_name}}</option>
+                        
+                        {% endfor %} {% endcomment %}
+                    </select>
+                    <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Customer</a>
+                    
+                </div>
+
+               
+                {% comment %} <div class="mb-3">
+                    <label class="form-label">Sales Order* :</label>
+                    <input type="text" class="form-control" name="sales_order" value="0001">
+                   
+                </div> {% endcomment %}
+
+
+               
+               
+
+                <div class="mb-3">
+                    <label class="form-label">Sales Order Date* :</label>
+                    <input type="date" class="form-control" id="saleOrderDate" name="sales_order_date" oninput="myDateFunction()" required>
+                    {% comment %} <input type="button" class="btn btn-sm" id="clickButton" onclick="dateFunction()" style="cursor: pointer;" value="Click here for Today Date"> {% endcomment %}
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Expected Shipment Date* :</label>
+                    <input type="date" class="form-control" id="expectedShipmentDate" name="expected_shipment_date" oninput="myFunction()" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Payment Term* :</label>
+                    <select class="form-control" name="paymentterm" required>
+                        <option selected >Select Payment Term</option>
+                        <option>Advance Paid</option>
+                        <option>Due next of the month</option>
+                        <option>Due end of the month</option>
+                        <option>Due on receipt</option>
+                    </select>
+                </div>
+
+             
+
+
+                <div class="mb-3">
+                    <label class="form-label">Delivery Method :</label>
+                    <input type="text" class="form-control" name="delivery_method">
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Customer Sales Person* :</label>
+                            <input type="text" class="form-control" name="customer_sales_person" required>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-label">Customer Phone number* :</label>
+                            <input type="text" class="form-control" name="customer_phone_number" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            <div class="col-6">
+                <br><br><br><br><br><br><br><br><br>
+                
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+                
+            </div>
+        </div>    
+
+        <hr>
+
+        <h2 class="fw-bold">Product Detail</h2>
+        <div class="">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <strong>{{ message }}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>  
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="row">
+
+            <table class="table align-middle">
+                <thead>
+                    <tr class="bg-info">
+                        {% comment %} <th scope="col">mf unit</th> {% endcomment %}
+                        <th scope="col">Product Name & Product Length*</th>
+                        {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
+                        <th scope="col">Weight Calculation*</th>
+                        <th scope="col">Quantity*</th>
+                        <th scope="col">Bundle Number*</th>
+                        <th scope="col">Price*</th>
+                        <th scope="col">GST Percentage*</th>
+                        <th scope="col">Total Cost*</th>
+                        <th scope="col">Auto Logistic Fitment*</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                       
+                        
+                        <td scope="row">
+                            {% comment %} productName product {% endcomment %}
+                            <select name="product_name" id="0_product_name" onchange='selectProduct(this)' class="inventoryProduct form-control my-2" required>
+                                <option value="">Select Product</option>
+                                {% for i in inventory_product %}
+                                <option value="{{i.id}}">{{i.item_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        {% comment %} <td>
+                            <input type="text" class="form-control my-2" name="product_length" value="">
+                            <select name="product_length" class="productLength form-control my-2">
+
+                            </select>
+                        </td> {% endcomment %}
+                        <td>
+                            <input type="text" class="form-control my-2" name="weight_calculation" value="" required>
+                        </td>
+                        <td>
+                            <input type="text" id="0_qty" onchange='changeqty(this)' class="form-control my-2" name="quantity" value="" required>
+                        </td>
+                        
+                        <td>
+                            <input type="text" class="form-control my-2" value="" name="bundle_number" required>
+                        </td>
+                        
+                        <td>
+                            <input type="text" class="cost price form-control my-2" id="0_price" value="" name="price" required>
+                        </td>
+                        <td>
+                            <input type="text" class="gst form-control my-2" value="" id="0_gst" name="gst" required readonly>
+                        </td>
+
+                        <td>
+                            <input type="text" class="amount totalCost form-control my-2" id="0_amount" value="" name="product_cost" required readonly>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control my-2" name="auto_logistic" value="" required>
+                        </td>
+                       
+                    </tr>
+                </tbody>
+            </table>
+            <input class="btn btn-sm fw-bold w-auto" id="addRow" type="button" style="background-color:#ed8b00;" value="+ Add Product">
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                 <div class="mb-3">
+                    <label class="form-label fw-bold">Total Amount :</label>
+                    <input type="text" id="total" class="form-control w-75" value="0" name="total_amount" readonly>
+                 </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+      <div class="row">
+        <div class="col-12">
+            <div class="mb-3">
+                <label class="form-label">Terms & Conditions</label>
+                <textarea class="form-control" rows="3" name="terms_and_conditions"></textarea>
+            </div>
+        </div>
+      
+
+        </div>
+        {% comment %} <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label class="form-label">Upload Sales Order Invoice</label>
+                        <input type="file" class="form-control-file" value="" name="sales_order_file">
+                        <br>
+                    </div>
+                  
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Upload Delivery Challan</label>
+                    <input type="file" class="form-control-file" name="delivery_challan" value="">
+                        <br>
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Upload Packing List</label>
+                    <input type="file" class="form-control-file" name="packing_list">
+             
+                    <br>
+                </div>
+                <div class="col-3">
+                    <label class="form-label">Uplaod EV List</label>
+                    <input type="file" class="form-control-file" name="ev_list">
+                    <br>
+                </div>
+            
+            </div>
+            {% endcomment %}
+
+<br><br>
+
+{% comment %} {% for key, value in product_price.items() %}
+Key: {{ key }}, Value: {{ value }}
+{% endfor %} {% endcomment %}
+{% comment %} {% set product_price_items = product_price.items() %} {% endcomment %}
+{% comment %} {% if  product_price %}
+{% else %}
+  Product price dictionary is empty.
+
+{% endif %} {% endcomment %}
+        <div class="container text-end">
+            <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a>
+            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Order</button>
+        </div>
+    </form>
+</div>
+<br><br><br>
+<script>
+  
+count = 0
+    $("#addRow").click(function () {
+        product = `<option value="">Select Product</option>
+    {% for i in inventory_product %}
+    <option value="{{i.id}}">{{i.item_name}}</option>
+    {% endfor %}`;
+        count+=1
+        let add_input_feilds_to_table="<tr>"
+
+            add_input_feilds_to_table+="<td><select name='product_name' id='"+count+"_product' onchange='selectProduct(this)'  class='inventoryProduct form-control my-2'>"+product+"</select></td>"
+            add_input_feilds_to_table+="<td><input type='text' class='form-control my-2' name='weight_calculation'></td>"
+            add_input_feilds_to_table+="<td><input type='text' id='"+count+"_qty' onchange='changeqty(this)' class='form-control my-2' name='quantity'></td>"
+            add_input_feilds_to_table+="<td><input type='text' class='form-control my-2' name='bundle_number'></td>"
+            add_input_feilds_to_table+="<td><input type='text' id='"+count+"_price' class='price form-control my-2' name='price'></td>"
+            add_input_feilds_to_table+="<td><input type='text' id='"+count+"_gst' class='gst form-control my-2' name='gst' readonly></td>"
+            add_input_feilds_to_table+="<td><input type='text' id='"+count+"_amount' class='totalCost amount form-control my-2' name='product_cost' readonly></td>"
+            add_input_feilds_to_table+="<td><input type='text' class='form-control my-2' name='auto_logistic'></td>"
+            add_input_feilds_to_table+="<td><input class='removeFeild btn btn-danger btn-sm my-2' id='"+count+"_remove' type='button' value='-'><td>"
+            add_input_feilds_to_table+="</tr>";
+                $("table tbody").append(add_input_feilds_to_table);
+
+            });
+
+        
+
+            // remove button for product detail
+            $("table tbody").on('click','.removeFeild' ,function(){
+                console.log($(this).attr('id'))
+                o = $(this).attr('id')
+                j = o.split('_')[0]
+                console.log('jjjjjj',j)
+                
+                //debugger;
+                totalCost = document.getElementById(j+'_amount').value;
+                console.log('ttttttt',totalCost)
+                document.getElementById('total').value =  Number(Number(document.getElementById('total').value) - Number(totalCost)).toFixed(2);
+                $(this).parent().parent().remove();
+             });
+
+            function selectProduct(event){
+                //alert(event.id)
+                a = event.id
+                console.log('aaa',a)
+                b = a.split('_')[0]
+                console.log('bbb',b)
+                var url = $("#salesOrderForm").attr("product-cost-url");
+                console.log('url ',url)
+                console.log('hkahakakaalla',this)
+                dprod = '' 
+                if (event.value){
+                    dprod = event.value
+                }
+                else{
+                    dprod = document.getElementById(a).value
+                }
+                $.ajax({
+                    url: url,
+                    data: {
+                      'product_name': dprod
+                    },
+                    success: function (data) {
+                        debugger;
+                        if (data){
+                            const price = data.split('-')[0];
+                            const gst = data.split('-')[1];
+                            // const qty = document.getElementById(b+'_qty').value;
+                        
+
+                                document.getElementById(b+'_price').value = price
+                                document.getElementById(b+'_gst').value = gst
+                                // var totalCost = Number(price * qty) + Number((price * gst * qty) / 100);
+                                //  totalCost = Number(totalCost).toFixed(2);
+                                // document.getElementById(b+'_amount').value = totalCost;
+                                // document.getElementById('total').value =  Number(document.getElementById('total').value) + Number(totalCost);
+                            
+                        
+
+                         
+                        
+                        }
+
+              
+                    },
+                    error:function(error){
+                        alert('error', error)
+                    }
+                  });
+                
+              
+            }
+
+            function changeqty(event){
+                a = event.id;
+                b = a.split('_')[0];
+                const price  = document.getElementById(b+'_price').value;
+                const gst  = document.getElementById(b+'_gst').value;
+                const amount  = document.getElementById(b+'_amount').value;
+                qty = 0
+                if (event.value){
+                    qty = event.value;
+                }
+                else{
+                    qty = document.getElementById(a).value;
+                }
+                var totalCost = Number(price * qty) + Number((price * gst * qty) / 100);
+                totalCost = Number(totalCost).toFixed(2);
+                document.getElementById(b+'_amount').value = totalCost;
+                document.getElementById('total').value =  Number(Number(document.getElementById('total').value) + Number(totalCost) - Number(amount)).toFixed(2);
+            }
+
+
+             
+
+         
+            
+  
+</script>
+
+{% endblock content %}

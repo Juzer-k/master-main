@@ -1,0 +1,221 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Unit Details{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="container">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              <strong>{{ message }}</strong>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% comment %} Customer Detail {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Customer Detail</h3>
+
+                <div class="mb-3">
+                    <label class="form-label">Type* :</label>
+                    {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
+                      <select class="form-control" onchange="" name="unit_type" id="" autofocus  required>
+                        <option value="">Select Customer Type</option>
+                        <option value="Distributer">Distributer</option>
+                        <option value="Manufacturer">Manufacturer</option>
+                        <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option>
+                    </select>  
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Primary Contact* :</label>
+                    <div class="row" required>
+                        <div class="col-4">
+                            <select class="form-control" name="salutation">
+                                <option selected>Salutation</option>
+                                <option>Mr</option>
+                                <option>Mrs</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} <div class="mb-3">
+                    <label class="form-label">Manufacturer / Distributor Units:</label>
+                    <select class="form-control" name="manufacturer">
+                        <option selected>Select Manufacturer / Distributor Units</option>
+                        {% for manufacturers in list_manufacturer %}
+                        <option value="{{manufacturers.id}}">{{manufacturers.user}}</option>
+                        {% endfor %}
+                    </select>
+                </div> {% endcomment %}
+
+                <div class="mb-3">
+                    <label class="form-label">Customer Units :</label>
+                    <input type="text" class="form-control" name="manufacturer">
+                </div>
+
+
+                <div class="mb-3">
+                    <label class="form-label">Contact Person* :</label>
+                    <input type="text" class="form-control" name="contact_person" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Company Name* :</label>
+                    <input type="text" class="form-control" name="company_name" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email* :</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone :</label>
+                    <input type="number" class="form-control" name="phone_number" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Website :</label>
+                    <input type="text" class="form-control" name="website">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pan Number :</label>
+                    <input type="text" class="form-control" name="pan_number">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Currency* :</label>
+                    <input type="text" class="form-control" name="currency" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Payment Term* :</label>
+                    <input type="text" class="form-control" name="m_payment_term" required>
+                </div>
+            </div>
+    </div>
+
+    <div class="row">
+        {% comment %} Billing Address {% endcomment %}
+        <div class="col-6">
+            <h4 class="my-3 fw-bold text-muted">Unit Address</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Attention :</label>
+                <input type="text" class="form-control" name="manufacturing_unit_attention">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Address* :</label>
+                <input type="text" class="form-control" name="manufacturing_unit_address" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Country* :</label>
+                {% comment %} <input type="text" class="form-control" name="manufacturing_unit_country" required> {% endcomment %}
+                <select class="country form-select" name="manufacturing_unit_country" required>
+                    <option value="">Select Country</option>
+                    {% comment %} <option value="india">India</option> {% endcomment %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">State* :</label>
+                {% comment %} <input type="text" class="form-control" name="state" placeholder="State" required> {% endcomment %}
+                <select class="state form-select" name="manufacturing_unit_state" required>
+                    <option value="">Select State</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">City* :</label>
+                <select class="region form-select" name="manufacturing_unit_city" required>
+                  <option value="">Select City</option>
+            
+              </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Zip Code* :</label>
+                <input type="number" class="form-control" name="manufacturing_unit_zip_code" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number* :</label>
+                <input type="number" class="form-control" name="manufacturing_unit_phone_number" required maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fax :</label>
+                <input type="text" class="form-control" name="manufacturing_unit_fax">
+            </div>
+
+        </div>
+        {% comment %} Shipping Address {% endcomment %}
+        {% comment %} <div class="col-6">
+            <h4 class="my-3 fw-bold text-muted">Shipping Address</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Attention :</label>
+                <input type="text" class="form-control" name="s_attention">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Country / Region :</label>
+                <input type="text" class="form-control" name="s_country">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Address :</label>
+                <input type="text" class="form-control" name="s_address">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">City :</label>
+                <input type="text" class="form-control" name="s_city">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">State :</label>
+                <input type="text" class="form-control" name="s_state">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Zip Code :</label>
+                <input type="number" class="form-control" name="s_zip_code">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number :</label>
+                <input type="number" class="form-control" name="s_phone_number">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fax :</label>
+                <input type="text" class="form-control" name="s_fax">
+            </div>
+
+        </div> {% endcomment %}
+    </div>
+    <div class="container text-end">
+        <button class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Save</button>
+    </div>
+</form>
+<br><br><br>
+</div>
+{% endblock content %}

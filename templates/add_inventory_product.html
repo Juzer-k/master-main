@@ -1,0 +1,219 @@
+{% extends "customer_navbar.html" %}
+{% load static %}
+{% block title %}Add Product To Inventory{% endblock %}
+{% block content %}
+<div class="container" onload = "add_inventory_product()">
+    <h3 class="fw-bold">Add Product To Inventory</h3>
+    <p style="color:red;" id="error_message"></p>
+    <div class="">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>{{ message }}</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>  
+        {% endfor %}
+        {% endif %}
+    </div>
+    <form action="" id="Form" method="POST" class="add-new-item"  id="add-new-item" category-data-url="{% url 'load-category' %}" rack-data-url="{% url 'load-rack' %}" product-data-url="{% url 'load-item-name' %}" product-stock-url="{% url 'load-item-stock' %}" product-gst-url="{% url 'load-item-gst' %}" product-price-url="{% url 'load-item-price' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6">
+                <div class="py-3">
+                    <label for="buy"
+                        class="label-blue">Item ID</label>
+                        <input type="text" name="item_id_sku" id="item_id_sku"
+                               class="form-control add_single_field" value="{{item_sku}}" readonly>
+                </div>
+                <div class="py-3">
+                    <label for="code" class="label-blue">Warehouse</label>
+                    <select class="form-select add_single_field selectCategoryName" id="check_ware_house" name="category_load" required>
+                        <option value="-">-</option>
+                    {% for warehouse in warehouses %}
+                        <option value="{{warehouse.name}}">{{warehouse.name}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="py-3">
+                    <label for="itemCategory" class="label-blue">Item
+                        category</label>
+                    {% comment %} <select class="form-select add_single_field add-new-cat" id="category"name="category">
+                        <option>-------</option>
+                      <option class="add-new-category" value="/inventory/add-category">Add Category</option>
+                        {% for category in categories %}
+                            <option value="{{category.id}}">{{category.name}}</option>
+                        {% endfor %}
+                    </select> {% endcomment %}
+                    <select name="category" class="form-control categoryName category  my-2 add_single_field" required>
+
+                    </select>
+                </div>
+                <div class="py-3">
+                    <label for="rack" class="label-blue">Rack</label>
+                    <select class="form-select add_single_field rackName rack" id="add-racks" name="add-racks">
+                       
+                    </select>
+                </div>
+              
+              
+                                                                             
+                <div class="py-3">
+                    <label for="ProductService"
+                        class="label-blue">Product/Service</label>
+                    <select class="form-select add_single_field" name="service_product" id="service_product" required>
+                        <option selected>Select Type</option>
+                        {% for type, value in product_services %}
+                        <option value="{{type}}">{{ value }}</option>
+                       {% endfor %}
+                    </select>
+                   
+                </div>
+                <div class="py-3">
+                    <label for="unit" class="label-blue">Unit Of
+                        Measurement</label>
+                    <select class="form-select add_single_field" id="unit" name="unit" required>
+                        <option selected>Select Unit</option>
+                        {% for type, unit in units %}
+                        <option value="{{type}}">{{unit}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+
+                
+            </div>
+            <div class="col-6">
+                <div class="py-3">
+                    <label for="buy"
+                        class="label-blue">Purchase Order</label>
+                    <select class="form-select add_single_field selectpurchaseorder" id="pusrchase_order"
+                            onchange="onSelectPO(this)"
+                            name="purchase_order" required>
+                        <option value="">Select Purchase Order</option>
+                            {% for i in purchase_item %}
+                                <option value="{{i.id}}">P0-{{i.id}}</option>
+                            {% endfor %}
+                            <option value="Others">Others</option>
+                    </select>
+                </div>
+
+                <div class="py-3" id="item_name_div">
+                    <label for="Iname" class="label-blue">Item name</label>
+                    <select class="form-select add_single_field itemName product"
+                            id="item_namedropdown" name="item_name" onchange="selectedItemName(this)">
+                        <option value="">Select Item name</option>
+                        {% comment %} <option value="">Select Item name</option>
+                            {% for i in purchase_order %}
+                                <option value="{{i.id}}">P0-{{i.id}}</option>
+                            {% endfor %} {% endcomment %}
+                    </select>
+
+                    <input type="text" class="form-control add_single_field" id="item_name_freeText"
+                           name="item_name_text_feild">
+                </div>
+
+                <div class="py-3" id="stock_div_invent">
+                    <label for="stock" class="label-blue">Current
+                        Stock</label>
+                        
+                    <select class="productQty form-select add_single_field" id="stock_dropdown" name="stock">
+                        <option value="">Stock</option>
+                    </select>
+
+                    <input type="text" name="stock_text_feild" id="stock_invent" class="form-control add_single_field" value="">
+                </div>   
+                
+                <div class="py-3" id="gst_div_invent">
+                    <label for="tax" class="label-blue">GST Percentage</label>
+                    <select class="productgst form-select add_single_field" id="gst_dropdown" name="tax">
+                        <option value="">GST Percentage</option>
+                     
+                            
+                    </select>
+                    <input type="text" name="gst_text_field" id="gst_invent" class="form-control add_single_field">
+                </div>
+             
+                <div class="py-3">
+                    <label for="code" class="label-blue">HSN Code</label>
+                    <input type="text" name="hsn_code" id="hsn_code" class="form-control add_single_field" required>
+                </div>
+                <div class="py-3" id="price_div_invent">
+                    <label for="Price" class="label-blue">Price</label>
+                    <select class="productprice form-select add_single_field" id="price_dropdown"
+                            onchange="selectedPrice(this)" name="price">
+                        <option value="">Price</option>
+                     
+                            
+                    </select>
+                    <input type="text" name="price_text_field" id="price_text_field_invent"
+                           onchange="addPrice(this)"
+                           class="form-control add_single_field">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="{% url 'inventory'%}"><button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button></a>
+            <input type="submit" id="btn-submit"value="Save"class="btn btn-success">
+            {% comment %} <button type="button" class="btn btn-success">Save</button> {% endcomment %}
+            
+        </div>
+  <p>{% if message %}{{message}}{% endif %}</p>
+</form>
+        
+</div>
+
+<script>
+
+    $('#stock_div_invent').hide();
+    $('#price_div_invent').hide();
+    $('#gst_div_invent').hide();
+
+    function selectedPrice(event){
+        if(event.value){
+            document.getElementById('price_text_field').value = '';
+        }
+    }
+
+    function addPrice(event){
+        if(event.value){
+            document.getElementById('price_dropdown').value = '';
+        }
+    }
+
+    function onSelectPO(event){
+        debugger;
+        $('#price_div').show();
+        if(event.value && event.value != 'Others'){
+            $('#price_text_field').hide();
+            $('#item_namedropdown').show();
+            $('#item_name_freeText').hide();
+            $('#stock_invent').hide();
+            $('#gst_invent').hide();
+            $('#price_text_field_invent').hide();
+            $('#stock_dropdown').hide();
+            $('#gst_dropdown').hide();
+            $('#price_dropdown').hide();
+        }else if(event.value && event.value == 'Others'){
+            $('#item_namedropdown').hide();
+            $('#item_name_freeText').show();
+            $('#stock_div_invent').show();
+            $('#price_div_invent').show();
+            $('#gst_div_invent').show();
+            $('#stock_invent').show();
+            $('#gst_invent').show();
+            $('#price_text_field_invent').show();
+        }
+    }
+
+    function selectedItemName(event){
+        if(event.value){
+            $('#stock_div_invent').show();
+            $('#price_div_invent').show();
+            $('#gst_div_invent').show();
+            $('#stock_dropdown').show();
+            $('#gst_dropdown').show();
+            $('#price_dropdown').show();
+        }
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,61 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Unit DashBoard{% endblock title %}
+{% block content %}
+<div class="conatainer-fluid">
+
+
+  <h3 class="fw-bold my-3">Customer Details</h3>
+  {% if manufacturing_unit_data|length < 1 %} <div class="container text-center my-4">
+    <h3 class="text-center fw-bold">No Customer Found.</h3>
+    <a class="btn fw-bold" style="background-color:#ed8b00;" href="{% url 'create-manufacturing-unit' %}">Add New
+      Customer Unit</a>
+</div>
+{% else %}
+<div class="container text-end my-4">
+  <a class="btn fw-bold" style="background-color:#ed8b00;" href="{% url 'create-manufacturing-unit' %}">Add New
+     Customer Unit</a>
+</div>
+<table class="table align-middle table-bordered">
+  <thead>
+    <tr style="text-transform: uppercase;" class="bg-info">
+      <th>Unit Name</th>
+      <th>Full Name</th>
+      <th>Email</th>
+      <th>Website</th>
+      {% comment %} <th class="w-25">Delivery Method</th> {% endcomment %}
+      <th>Phone Number</th>
+      <th>Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for manufacturing_unit_data in manufacturing_unit_data %}
+    <tr>
+      <th scope="row">{{manufacturing_unit_data.company_name|upper}}</th>
+      {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+      <td>{{manufacturing_unit_data.salutation}}
+        {{manufacturing_unit_data.first_name|upper}}
+        {{manufacturing_unit_data.last_name|upper}}</td>
+      {% comment %} <td>{{manufacturing_unit_data.display_name|capfirst}}</td> {% endcomment %}
+      <td>{{manufacturing_unit_data.email}}</td>
+      <td>{{manufacturing_unit_data.website}}</td>
+      <td>{{manufacturing_unit_data.phone_number|upper}}</td>
+      {% comment %} <td>{{manufacturing_unit_data.pan_number}}</td>
+      <td>{{manufacturing_unit_data.currency}}</td> {% endcomment %}
+
+      {% comment %} <td>{{order.delivery_method|capfirst}}</td> {% endcomment %}
+
+
+      <td><a href="{% url 'update-manufacturing-unit' manufacturing_unit_data.id %}" class="btn fw-bold btn-sm"
+          style="background-color:#ed8b00;">&#128393;</a></td>
+    </tr>
+    {% endfor %}
+
+  </tbody>
+</table>
+{% endif %}
+</div>
+
+
+{% endblock content %}

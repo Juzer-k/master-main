@@ -1,0 +1,5 @@
+<option value="">Select Item name</option>
+{% for i in order %}
+<option value="{{i.id}}">{{i.product_name}}</option>
+{% endfor %} 
+{% comment %} <option value="others">Other</option> {% endcomment %}

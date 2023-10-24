@@ -1,0 +1,43 @@
+{% extends 'vendor_navbar.html' %}
+{% load static %}
+{% block title %}Search Result{% endblock title %}
+{% block content %}
+<div class="container">
+    {% if search_result|length < 1 %}
+
+    <div class="container my-5">
+    <h3 class="fw-bold my-3">Search Result For: {{vendor_search_query}}</h3>
+        <h2 class="fw-bold text-center">No Order found for this client</h2>
+    </div>
+    
+    {% else %}
+    <h3 class="fw-bold my-3">Search Result For: {{vendor_search_query}}</h3>
+    <table class="table align-middle table-bordered">
+        <thead>
+            <tr class="bg-info">
+                <th scope="col">Order Number</th>
+                <th scope="col">Client</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for query in search_result %}
+            <tr>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{query.user}}</td>
+                <td>{{query.purchase_order_date}}</td>
+                <td>{{query.order_status}}</td>
+                <td>
+                  <a href="{% url 'vendor-purchase-order-update' query.id%}" class="btn fw-bold btn-sm" style="background-color:#ed8b00;">&#128393;<a>
+                </td>
+            </tr>
+        {% endfor %}
+        
+    </tbody>
+</table>
+
+{% endif %}
+</div>
+{% endblock content %}

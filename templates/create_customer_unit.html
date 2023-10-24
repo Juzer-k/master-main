@@ -1,0 +1,215 @@
+{% extends 'manufacturer_navbar.html' %}
+{% load static %}
+{% block title %}Customer Unit{% endblock title %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% comment %} Manufacturing Unit Detail {% endcomment %}
+            <div class="col-6">
+                <h3 class="my-3 fw-bold">Customer Unit Detail</h3>
+                <div class="mb-3">
+                    <label class="form-label">Primary Contact* :</label>
+                    <div class="row">
+                        <div class="col-4">
+                            <select class="form-control" name="salutation" required>
+                                <option selected>Salutation</option>
+                                <option>Mr</option>
+                                <option>Mrs</option>
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" class="form-control" name="last_name" placeholder="Last Name" required>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %} <div class="mb-3">
+                    <label class="form-label">Manufacturer :</label>
+                    <select class="form-control" name="manufacturer">
+                        <option selected>Select Manufacturer</option>
+                        {% for manufacturers in list_manufacturer %}
+                        <option value="{{manufacturers.id}}">{{manufacturers.user}}</option>
+                        {% endfor %}
+                    </select>
+                </div> {% endcomment %}
+
+                <div class="mb-3">
+                    <label class="form-label">Contact Person :</label>
+                    <input type="text" class="form-control" name="contact_person">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Company Name* :</label>
+                    <input type="text" class="form-control" name="company_name" required>
+                </div> 
+
+                <div class="mb-3">
+                    <label class="form-label">Email* :</label>
+                    <input type="email" class="form-control" name="email" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Phone* :</label>
+                    <input type="number" class="form-control" name="phone_number" required maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Website :</label>
+                    <input type="text" class="form-control" name="website">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pan Number :</label>
+                    <input type="text" class="form-control" name="pan_number">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Currency :</label>
+                    <input type="text" class="form-control" name="currency">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Payment Term :</label>
+                    <input type="text" class="form-control" name="m_payment_term">
+                </div>
+            </div>
+    </div>
+
+    <div class="row">
+        {% comment %} Billing Address {% endcomment %}
+        <div class="col-6">
+            <h4 class="my-3 fw-bold text-muted">Billing Address</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Attention :</label>
+                <input type="text" class="form-control" name="attention">
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Address* :</label>
+                <input type="text" class="form-control" name="address" required>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Country* :</label>
+                {% comment %} <input type="text" class="form-control" name="manufacturing_unit_country" required> {% endcomment %}
+                <select class="country form-select" name="country" required>
+                    <option value="">Select Country</option>
+                </select>
+            </div>
+
+
+           
+            <div class="mb-3">
+                <label class="form-label">State* :</label>
+                {% comment %} <input type="text" class="form-control" name="state" placeholder="State" required> {% endcomment %}
+                <select class="state form-select" name="state" required>
+                    <option value="">Select State</option>
+                 
+                    </select>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">City* :</label>
+                <select class="region form-select" name="city" required>
+                  <option value="">Select City</option>
+            
+              </select>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label class="form-label">Zip Code* :</label>
+                <input type="number" class="form-control" name="zip_code" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number* :</label>
+                <input type="number" class="form-control" name="billing_phone_number" required maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fax :</label>
+                <input type="text" class="form-control" name="fax">
+            </div>
+
+        </div>
+
+
+
+        {% comment %} Shipping Address {% endcomment %}
+        <div class="col-6">
+            <h4 class="my-3 fw-bold text-muted">Shipping Address</h4>
+
+            <div class="mb-3">
+                <label class="form-label">Attention :</label>
+                <input type="text" class="form-control" name="s_attention">
+            </div>
+
+           
+
+            <div class="mb-3">
+                <label class="form-label">Address* :</label>
+                <input type="text" class="form-control" name="s_address" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Country* :</label>
+                {% comment %} <input type="text" class="form-control" name="manufacturing_unit_country" required> {% endcomment %}
+                <select class="country form-select" name="s_country" required>
+                    <option value="">Select Country</option>
+                    {% comment %} <option value="india">India</option> {% endcomment %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">State* :</label>
+                {% comment %} <input type="text" class="form-control" name="state" placeholder="State" required> {% endcomment %}
+                <select class="state form-select" name="s_state" required>
+                    <option value="">Select State</option>
+        
+                    </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">City* :</label>
+                <select class="region form-select" name="s_city" required>
+                  <option value="">Select Region</option>
+            
+              </select>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Zip Code* :</label>
+                <input type="number" class="form-control" name="s_zip_code" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Phone Number* :</label>
+                <input type="number" class="form-control" name="s_phone_number" required maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Fax :</label>
+                <input type="text" class="form-control" name="s_fax">
+            </div>
+
+        </div>
+    </div>
+    <div class="container text-end">
+        <button class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Save</button>
+    </div>
+</form>
+<br><br><br>
+</div>
+{% endblock content %}

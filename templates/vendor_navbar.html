@@ -1,0 +1,141 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <link href="https://fonts.cdnfonts.com/css/hyperion-sunset-brk" rel="stylesheet">
+
+  <link rel="icon" type="image/x-icon" href="{% static 'images/icon/favicon.ico'%}">
+  <title>Tech Maadhyam | {% block title %}{% endblock title %}</title>
+</head>
+
+<body class="container-fluid">
+
+  <div class="row">
+    <div class="col-2" style="background-color:black;">
+      <div class="container text-center">
+
+        <img src="{%static 'images/tm_logo.png'%}" class="mx-auto d-block mt-5" alt="" width="100%">
+        <br><br>
+        <a href="{% url 'vendor-dashboard' %}" class="fw-bold w-100 btn text-dark my-3 fs-5"
+          style="background-color:#ed8b00;">Dashboard</a><br>
+
+          {% comment %} dropdown {% endcomment %}
+        <div class="side fs-5">
+          <button class="dropdown-btn btn fw-bold text-center text-dark fs-5" style="background-color:#ed8b00;">Order Status
+            <i class="fa fa-caret-down"></i>
+          </button>
+          <div class="dropdown-container">
+            <a href="{% url 'vendor-order-status-accepted' %}">Accept</a>
+            <a href="{% url 'vendor-order-status-accepted-with-change' %}">Accepted with change</a>
+            <a href="{% url 'vendor-order-status-in-production' %}">In Production</a>
+            <a href="{% url 'vendor-order-status-packed' %}">Packed</a>
+            <a href="{% url 'vendor-order-status-shipped' %}">Shipped</a>
+            <a href="{% url 'vendor-order-status-delivered' %}">Delivered</a>
+            <a href="{% url 'vendor-order-status-cancel' %}">Cancel</a>
+          </div>
+        </div>
+        <a href="" class="fw-bold w-100 btn text-dark my-3 fs-5" style="background-color:#ed8b00;">Report</a><br>
+      </div>
+      <br><br><br><br><br><br>
+    </div>
+    <div class="col-10">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="{% url 'vendor-dashboard' %}"
+            style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;">TECH MAADHYAM <span
+              class="fw-bold text-dark" style="font-family: Arial;">| {{request.user.username|capfirst}}</span></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            </ul>
+            <div class="float-end">
+              <ul class="navbar-nav me-5">
+                {% comment %} <li class="nav-item ms-4">{{request.user.username|capfirst}}</li> {% endcomment %}
+              </ul>
+            </div>
+
+            <form class="d-flex" method="get" action="/vendor-search">
+              <input class="form-control me-2" type="search" placeholder="Search Order" aria-label="Search"
+                name="search_query">
+              <button class="btn btn-dark" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                  fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                </svg></button>
+            </form>
+
+            <div id="mySidenav" class="sidenav">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+              <div class="container">
+                <img src="{% static 'images/person_circle.png'%}" height="30%" class="mx-auto d-block" width="30%"
+                  alt="">
+                <p class="text-center fw-bold mt-4">{{request.user.first_name|capfirst}}
+                  {{request.user.last_name|capfirst}}</p>
+                <p class="text-center fw-bold"> {{request.user.username|capfirst}}</p>
+                <p class="text-center fw-bold">{{request.user.email}}</p><br>
+                <div class="text-center">
+                  <a href="{% url 'vendor-detail' %}" style="background-color:#ed8b00;"
+                    class="btn fw-bold btn-sm">Account Detail</a>
+                  <a href="{% url 'logout' %}" class="fw-bold btn btn-sm my-3"
+                    style="background-color:#ed8b00;">Logout</a><br>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- open the sidenav -->
+            <span onclick="openNav()" class="ms-3"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+              </svg></span>
+          </div>
+        </div>
+      </nav>
+      {% block content %}{% endblock content %}
+    </div>
+
+
+
+
+    <div class="text-center p-5" style="background-color:black;">
+      <p style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;"> &copy; TECH MAADHYAM</p>
+    </div>
+
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+      <!-- Jquery -->
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="{% static 'js/javascript.js'%}"></script>
+
+    {% comment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> {% endcomment %}
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    -->
+</body>
+
+</html>

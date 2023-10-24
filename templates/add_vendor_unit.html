@@ -1,0 +1,17 @@
+{% extends 'manufacturer_navbar.html' %}
+{% load static %}
+{% block title %}Create Vendor Unit{% endblock title %}
+{% block content %}
+<div class="container">
+    <img src="{% static 'images/sales_order.png' %}" class="mx-auto d-block" height="40%" width="50%" alt="">
+</div>
+<div class="container text-center">
+    <a href="{% url 'create-vendor-unit' %}" class="btn btn-lg text-dark fw-bold" style="background-color:#ed8b00;">Create Vendor Unit</a>
+    <div class="container d-flex my-3">
+        <img src="{%static 'images/logo.png'%}" class="mx-auto d-block mt-1" width="15%" alt=""> 
+        <p class="mt-2 fw-bold fs-2"> AL-Digital</p>
+        <img src="{%static 'images/logo.png'%}" class="mx-auto d-block mt-1" width="15%" alt=""> 
+      </div>
+      <h3>Helps you systemize your order management!</h3>
+</div>
+{% endblock content %}

@@ -1,0 +1,411 @@
+{% extends "customer_navbar.html" %}
+{% load static %}
+{% block title %}Add Product To Unit{% endblock %}
+{% block content %}
+    <div>
+        <div class="item-master">
+            <div class="container-fluid">
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="d-md-flex justify-content-between inventory">
+                            <div class="d-flex">
+                                {% comment %} <i class="fa fa-archive" aria-hidden="true"></i> {% endcomment %}
+                                <span class="ps-2">
+                                    <h6 class="m-0">Add Product To Manufacturer / Distributer</h6>
+                                    {% comment %} <p class="m-0">Item master</p> {% endcomment %}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="container">
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                              <strong>{{ message }}</strong>
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>  
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                        <div class="item-table bg-white">
+                            <div class="table-heading d-md-flex justify-content-between p-3">
+                                <div class="heading-name mb-md-0 mb-3 d-flex">
+                                    
+                                    {% comment %} <div class="input-group">
+                                        <form method="GET" id="search-scan-form">
+                                            <div class="d-flex">
+                                                <span class="input-group-text" id="basic-addon3">Scan And Search</span>
+                                        
+                                            <input type="text" class="form-control" name="search_by_id" aria-describedby="basic-addon3" id="scanAdnSearch">
+                                            </div>
+                                            
+                                        </form>
+                                    </div> {% endcomment %}
+                                </div>
+
+                                <!-- Catalog Modal -->
+
+                                <div class="heading-button">
+                                    {% comment %} <button type="button" class="btn-add" data-bs-toggle="modal"
+                                    data-bs-target="#catalogmodal">+Add Catalog</button> {% endcomment %}
+
+                                   
+
+
+                                    <!-- Add single item modal -->
+                                    <button type="button" class="btn-add" data-bs-toggle="modal"
+                                        data-bs-target="#openmodalmaster">+Add single items</button>
+  
+                                    <div class="modal fade" id="openmodalmaster" >
+                                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                                            <div class="modal-content">
+
+                                                <!-- Modal Header -->
+
+                                                <div class="sub-heading shadow mb-4 rounded text-center encrypted_header">
+                                                    Add Item
+                                                </div>
+                                                
+                                                <!-- Modal body -->
+                                                <div class="modal-body">
+                                                    <p style="color:red;" id="error_message"></p>
+                                                    <form action="" id="Form" method="POST" class="add-new-item"  id="add-new-item">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                {% comment %} <div class="py-3">
+                                                                    <label for="item" class="label-blue">Manufacturer</label>
+                                                                    <input type="text" class="form-control add_single_field" name="manufacturer" id="manufacturer" required>
+                                                                </div> {% endcomment %}
+                                                               
+                                                                
+                                                                <div class="py-3">
+                                                                    <label for="Iname" class="label-blue">Item name</label>
+                                                                    <input type="text" id="item_name_mm" name="item_name" class="form-control add_single_field" required>
+                                                                </div>
+                                                                {% comment %} <div class="py-3">
+                                                                    <label for="buy"
+                                                                    class="label-blue">Buy/Sell/Both</label>
+                                                                    <select class="form-select add_single_field" id="item_type" name="item_type" required>
+                                                                        {% for type, value in item_types %}
+                                                                        <option value="{{type}}">{{value}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div> {% endcomment %}
+                                                                <div class="py-3">
+                                                                    <label for="itemCategory" class="label-blue">Item
+                                                                        category</label>
+                                                                        
+                                                                        {% comment %} <select name="category" class="categoryName category form-control my-2" required>
+                                                                            
+                                                                        </select> {% endcomment %}
+                                                                        <input type="text" name="category" id="category" class="form-control add_single_field" required>
+                                                                    </div>
+                                                                    <div class="py-3">
+                                                                        <label for="Price" class="label-blue">Price</label>
+                                                                        <input type="text" name="item_price" id="item_price" class="form-control add_single_field" required>
+                                                                    </div>
+                                                                    <div class="py-3">
+                                                                        <label for="tax" class="label-blue">GST Percentage</label>
+                                                                        <input type="text" name="tax" id="tax" class="form-control add_single_field" required>
+                                                                    </div>
+                                                                   
+                                                                    
+                                                                </div>
+                                                            
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <a href=""><button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button></a>
+                                                            <input type="submit" name  ="btn-submit" id="btn-submit"value="Save"class="btn btn-success">
+                                                            
+                                                        </div>
+                                                  
+                                                        <p>{% if message %}{{message}}{% endif %}</p>
+                                                </form>
+                                                        
+                                                </div>
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invent_table">
+                            <div class="table-responsive">
+                               
+                                <table class="table table-bordered ">
+                                    <thead class="bg-info"> 
+                                        {% comment %} table-heading-blue {% endcomment %}
+                                        <tr>
+                                            <th>Item id #</th>
+                                            <th>Item name</th>
+                                            <th>Item category</th>
+                                            {% comment %} <th style="width: 150px; min-width: 150px;">Current Stock</th> {% endcomment %}
+                                            {% comment %} <th style="width: 150px; min-width: 150px;">Unit</th> {% endcomment %}
+                                            <th style="width: 150px; min-width: 150px;">Price</th>
+                                            {% comment %} <th>Stock status</th> {% endcomment %}
+                                            {% comment %} <th>Product/Service</th> {% endcomment %}
+                                            {% comment %} <th>Type</th> {% endcomment %}
+                                            {% comment %} <th>HSN Code </th> {% endcomment %}
+                                            <th>GST Percentage</th>
+                                            {% comment %} <th>Warehouse </th> {% endcomment %}
+                                            <th style="width: 150px; min-width: 150px;" >Action</th>
+                                            {% comment %} <th style="width: 150px; min-width: 150px;" >Show Barcode</th> {% endcomment %}
+
+                                        </tr>
+                                    </thead>
+                                    <tr class="search">
+                                        <form method="GET" id="search-form">
+                                            <td><input type="text" class="search-item" name="search_by_id" placeholder="Search..."> </td>
+                                            <td><input type="text" class="search-item" name="search_by_name" placeholder="Search..."> </td>
+                                            <td><input type="text"class="search-item"  name="search_by_category" placeholder="Search..."> </td>
+                                        
+                                        
+                                        {% comment %} <td></td>
+                                        <td></td> {% endcomment %}
+                                        {% comment %} <td></td> {% endcomment %}
+                                        <td></td>
+                                        <td></td>
+                                        {% comment %} <td><input type="text" class="search-item" name="search_by_type" placeholder="Search..."> </td>
+                                        <td><input type="text" class="search-item" name="search_by_hsncode" placeholder="Search..."> </td> {% endcomment %}
+                                       {% comment %} <td></td> {% endcomment %}
+                                       
+                                    </form>
+
+
+                                    </tr>
+                                    <tbody class="table-data-purple">
+                                        <tr>
+                                            {% for item in items %}
+                                            <tr>
+                                                <td>P-{{item.id}}</td>
+                                                <td class="d-flex justify-content-between text-primary">{{ item.item_name }}
+                                                </td>
+                                                <td>{{ item.item_category}}</td>
+                                                {% comment %} <td class="text-end text-primary stock-td">{{item.stock}}</td>
+                                                <td>{{ item.unit_of_measurement }}</td> {% endcomment %}
+                                                <td><i class="fa fa-inr" aria-hidden="true"></i>
+                                                    {{ item.price }}</td>
+                                                {% comment %} <td>Min limit missing</td> {% endcomment %}
+                                                {% comment %} <td>{{ item.product_or_service }}</td> {% endcomment %}
+                                                {% comment %} <td>{{ item.type }}</td> {% endcomment %}
+                                                {% comment %} <td>{{ item.hsn_code }}</td> {% endcomment %}
+                                                <td>{{ item.tax }}</td>
+                                                {% comment %} <td>{{ item.warehouse}}</td> {% endcomment %}
+                                                <td>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                        <a href="{% url 'edit-unit-product' item.id %}" class="me-2">
+                                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                                                        </a>
+                                                    </svg>
+                                                    <i class="fa-solid fa-trash fa-fw item-delete text-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#openmodaldelete" data-delete-item-id="{{ item.id }}"></i>
+                                                    <input type="hidden" class="delete-itemid" value="{{item.id}}">
+                                                </td>
+                                                {% comment %} <td> <button data-bs-toggle="modal" data-item-barcode="{{ item.barcode.url }}"data-bs-target="#openbarcode" class="open_barcode btn-add px-1" >Show Barcode</button></td>                             {% endcomment %}
+                                            </tr>
+                                            {% endfor %}
+                                        </tr>
+                                    
+                                    </tbody>
+                                </table>
+                                <!-- Modal to delete item  -->
+                                <div class="modal fade" id="openmodaldelete">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-danger modal_header_del">
+                                                <h5 class="m-0">Delete Entry</h5>
+                                                <button type="button" class="modal_close_btn btn p-0" data-bs-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form class="delete_item_form" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="d-flex align-items-center mb-5 mt-3">
+                                                        <img src="{% static '/images/warning_icon.gif' %}" width="100px">
+                                                        <h4 class="ms-3">Are you sure you want to delete?</h4>
+                                                    </div>
+                                                    <button type="submit" class="btn btn-danger btn-md">Confirm delete</button>
+                                                    <a href=""><button type="button" class="btn btn-default" data-bs-dismiss="modal">Cancel</button></a>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal to show barcode of the item -->
+                                <div class="modal fade" id="openbarcode">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header modal_header_del bg-primary">
+                                                <h5 class="m-0">Barcode</h5>
+                                                <button type="button" class="modal_close_btn btn p-0" data-bs-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img class="barcode-img-url" src="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table_pagination">
+                                <div class="d-flex justify-content-between align-items-center pt-3">
+                                    <p class="pagisition-para mb-0">1-2 of 2</p>
+                                    <div class="">
+                                        <button class="btn btn-primary px-0 py-1" disabled><i class="fas fa-chevron-left mx-2"></i></button>
+                                        <button class="btn btn-primary px-0 py-1"><i class="fas fa-chevron-right mx-2"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <style>
+
+    .hide-add-category-and-rack{
+        display: none;
+    }
+    .show-add-category-and-rack-form{
+        display: block;
+    }
+    </style>
+
+        
+    <script>
+     
+        {% comment %} jQuery("#add-new-category").on('click', function(){
+                console.log("click");
+                jQuery("#add-new-category").addClass("hide-add-category-and-rack");
+                jQuery("#show_category_form").addClass("show-add-category-and-rack-form");
+        }); {% endcomment %}
+
+        function myCategoryFunction() {
+            console.log('click');
+            var category = event.target.value;
+            console.log(category);
+            if (category == 'Other'){
+                document.getElementById("category").innerHTML = `<input type="text" class="form-control mb-3" placeholder="Enter Category" name="new_category_name">`;
+            }else{
+                document.getElementById("category").innerHTML = null;
+            }
+
+             
+        }
+
+        function myRackFunction() {
+            console.log('click')
+            var rack = event.target.value;
+            if (rack == 'Other'){
+                document.getElementById("rack").innerHTML = `<input type="text" class="form-control mb-3" placeholder="Enter Rack" name="rack">`;
+            }else{
+                document.getElementById("rack").innerHTML = null;
+            }
+        }
+
+        jQuery("#add-new-rack").on('click', function(){
+            console.log("click");
+            jQuery("#add-new-rack").addClass("hide-add-category-and-rack");
+            jQuery("#show_rack_form").addClass("show-add-category-and-rack-form");
+    });
+
+        jQuery('#btn-submit').on('click', function(){
+            let item_sku = jQuery("#item_sku").val();
+            var item_name = jQuery("#item_name").val();
+            let item_price = jQuery("#item_price").val();
+            let service_product = jQuery("#service_product").val();
+            let item_unit = jQuery("#unit").val();
+            let hsn_code = jQuery("#hsn_code").val();
+            let item_type = jQuery("#item_type").val();
+            let item_stock =  jQuery("#stock").val();
+            let item_category = jQuery("#category").val();
+            let item_tax = jQuery("#tax").val();
+            let item_rack = jQuery("#add-racks").val();
+            let item_warehouse = jQuery("#check_ware_house").val();
+           
+        });
+        jQuery(document).ready(function(){
+            jQuery(".item-delete").on("click",function(){
+                var itemid = jQuery(this).attr("data-delete-item-id");
+                jQuery(".delete_item_form").attr("action",`/delete-unit-product/${itemid}`)
+            });
+            
+        });
+
+        jQuery(".add-new-cat").on("change", function(){
+            var url = $(this).val();
+            console.log(url);
+            if(url == "/inventory/add-category"){
+                window.location = url;
+            }
+                
+        });
+        {% comment %} jQuery("#check_ware_house").on('change',function(e){
+            
+            var warehouse = jQuery("#check_ware_house option:selected").text();
+            page_url = "/inventory/get-warehouse-rack/"+warehouse
+            $.ajax({
+                type: 'GET',
+                url: page_url,
+                success: function (response) {            
+                    var rackk = response.racks
+                    console.log(rackk)
+                    jQuery(".add-racks").empty();
+                    for(let i = 0; i < rackk.length; i++){
+                        console.log(i)
+                        
+                        jQuery(".add-racks").append(`<option value="${rackk[i]}">${rackk[i]}</option>`);
+                    }
+                }
+            });
+        });   {% endcomment %}
+        
+        jQuery('.search-item').keypress(function (e) {
+            if (e.which == 13) {
+                jQuery('form#search-form').submit();
+                return false;
+            }
+        });
+
+        $("#scanAdnSearch").on("input", function(e){
+            let value = e.target.value
+            if(value.length > 10){
+                jQuery('form#search-scan-form').submit();
+                return true;
+            }               
+        });
+
+        jQuery(document).ready(function(){
+            function getUrlVars(){
+                var vars = [], hash;
+                var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for(var i = 0; i < hashes.length; i++)
+                {
+                    hash = hashes[i].split('=');
+                    vars.push(hash[0]);
+                    vars[hash[0]] = hash[1];
+                }
+                return vars;
+            }
+            
+
+            function check_search_val(){
+                let scan_search = getUrlVars()["search_by_id"]
+                if (scan_search !== undefined){
+                    jQuery('#scanAdnSearch').val(scan_search)
+                }
+
+                console.log(scan_search)
+            }
+            check_search_val()
+        
+    
+        });
+
+</script>
+
+{% endblock content %}

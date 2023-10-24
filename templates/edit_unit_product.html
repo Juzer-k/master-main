@@ -1,0 +1,63 @@
+{% extends "customer_navbar.html" %}
+{% load static %}
+{% block title %}Inventory{% endblock %}
+{% block content %}
+<form action="" id="Form" method="POST" class="add-new-item"  id="add-new-item">
+{% csrf_token %}
+<div class="row">
+    {% for prod in product %}
+    <div class="col-12">
+        {% comment %} <div class="py-3">
+            <label for="item" class="label-blue">Manufacturer</label>
+            <input type="text" class="form-control add_single_field" name="manufacturer" id="manufacturer" required>
+        </div> {% endcomment %}
+
+
+        <div class="py-3">
+            <label for="Iname" class="label-blue">Item name</label>
+            <input type="text" id="item_name_mm" name="item_name"
+                   value="{{prod.item_name}}"
+                   class="form-control add_single_field" required>
+        </div>
+        {% comment %} <div class="py-3">
+            <label for="buy"
+            class="label-blue">Buy/Sell/Both</label>
+            <select class="form-select add_single_field" id="item_type" name="item_type" required>
+                {% for type, value in item_types %}
+                <option value="{{type}}">{{value}}</option>
+                {% endfor %}
+            </select>
+        </div> {% endcomment %}
+        <div class="py-3">
+            <label for="itemCategory" class="label-blue">Item
+                category</label>
+
+                {% comment %} <select name="category" class="categoryName category form-control my-2" required>
+
+                </select> {% endcomment %}
+                <input type="text" name="category" id="category"
+                       value="{{prod.itemCategory}}"
+                       class="form-control add_single_field" required>
+            </div>
+            <div class="py-3">
+                <label for="Price" class="label-blue">Price</label>
+                <input type="text" name="item_price" id="item_price"
+                       value="{{prod.price}}"
+                       class="form-control add_single_field" required>
+            </div>
+            <div class="py-3">
+                <label for="tax" class="label-blue">GST Percentage</label>
+                <input type="text" name="tax" id="tax"
+                       value="{{prod.tax}}"
+                       class="form-control add_single_field" required>
+            </div>
+        </div>
+</div>
+    {% endfor %}
+    <div>
+        <a href=""><button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button></a>
+        <input type="submit" value="Save"class="btn btn-success">
+
+    </div>
+</form>
+{% endblock content %}

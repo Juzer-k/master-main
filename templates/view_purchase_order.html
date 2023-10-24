@@ -1,0 +1,236 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}View Purchase Order{% endblock title %}
+{% block content %}
+
+<div class="container-fluid">
+
+
+    <div class="row">
+        {% comment %} purchase Order Detail {% endcomment %}
+        <div class="col-6">
+            <h3 class="my-3 fw-bold">View purchase Order Detail</h3>
+            <div class="mb-3">
+                <label class="form-label">Customer* :</label>
+                <input type="text" class="form-control" value="{{purchase_order_update.vendor_unit|capfirst}}"
+                    readonly>
+            </div>
+
+
+            <div class="mb-3">
+                <label class="form-label">Purchase Order* :</label>
+                <input type="text" class="form-control" value="P0-{{purchase_order_update.id}}" readonly>
+            </div>
+
+            {% comment %} <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label class="form-label">Vendor Contact Person Name :</label>
+                        <input type="text" class="form-control"
+                            value="{{purchase_order_update.vendor_contact_person_name|capfirst}}" readonly>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label class="form-label">Vendor Contact Phone number :</label>
+                        <input type="text" class="form-control"
+                            value="{{purchase_order_update.vendor_contact_person_phone_number}}" readonly>
+                    </div>
+                </div>
+            </div> {% endcomment %}
+
+
+
+            <div class="mb-3">
+                <label class="form-label">Purchase Order Date* :</label>
+                <input type="text" class="form-control" value="{{purchase_order_update.purchase_order_date}}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Expected Shipment Date* :</label>
+                <input type="text" class="form-control" value="{{purchase_order_update.exp_shipment_date}}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Payment Term :</label>
+                <input type="text" class="form-control" value="{{purchase_order_update.payment_term}}" readonly>
+
+            </div>
+
+            {% comment %} <div class="mb-3">
+                <label class="form-label">Status :</label>
+                <input type="text" class="form-control" name="status">
+            </div> {% endcomment %}
+
+
+            <div class="mb-3">
+                <label class="form-label">Delivery Method :</label>
+                <input type="text" class="form-control" name="delivery_method"
+                    value="{{purchase_order_update.delivery_method|capfirst}}" readonly>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <label class="form-label">Customer Sales Person :</label>
+                        <input type="text" class="form-control"
+                            value="{{purchase_order_update.customer_sales_person|capfirst}}" readonly>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="mb-5">
+                        <label class="form-label">Customer Phone number :</label>
+                        <input type="text" class="form-control" value="{{purchase_order_update.customer_phone_number}}"
+                            readonly>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <hr>
+
+    <h2 class="fw-bold">Product Detail</h2>
+    <div class="row">
+        <table class="table align-middle table-bordered">
+            <thead>
+                <tr class="bg-info">
+                    {% comment %} <th scope="col">Sno.</th> {% endcomment %}
+                    <th scope="col">Product Name & Product Length</th>
+                    <th scope="col">Weight Calculation</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Bundle Number</th>
+                    <th scope="col">Cost Of Product</th>
+                    <th scope="col">Auto Logistic Fitment</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Customer Approval</th>
+                    <th scope="col">Vendor Approval</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in product_list %}
+                <tr>
+                    <td>
+                        <input type="text" class="form-control my-2" name="product_name" value="{{i.product_name}}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control my-2" name="weight_calculation"
+                            value="{{i.weight_of_product}}" readonly>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control my-2" name="quantity" value="{{i.quantity}}" readonly>
+                    </td>
+                    
+                    <td>
+                        <input type="text" class="form-control my-2" value="{{i.bundle_number}}" name="bundle_number" readonly>
+                    </td>
+                    
+                    <td>
+                        <input type="text" class="amount form-control my-2" value="{{i.cost_of_product}}" name="product_cost" readonly>
+                    </td>
+
+                    <td>
+                        <input type="text" class="form-control my-2" name="auto_logistic"
+                            value="{{i.auto_logistic_fillment}}" readonly>
+                    </td>
+                    
+                    <td>
+                        <textarea class="form-control" name="order_comment" rows="2"
+                            readonly>{{i.order_comment}}</textarea>
+                    </td>
+                    <td>
+                    <select class="form-control" name="customer_approval" readonly>
+                        <option selected>{{i.manufacturer_order_approval}}</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="form-control" readonly>
+                        <option selected>{{i.vendor_order_approval}}</option>
+                    </select>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-end">
+                 <div class="mb-3">
+                    <label class="form-label fw-bold">Total Amount :</label>
+                    <input type="text" id="total" class="form-control w-75" name="total_amount" value="{{purchase_order_update.total_amount}}" readonly>
+                 </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-3">
+                    <label class="form-label">Terms & Conditions</label>
+                    <textarea class="form-control" rows="4"
+                        readonly>{{purchase_order_update.terms_and_conditions|capfirst}}</textarea>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        {% comment %} <label class="form-label">Upload Sales Order Invoice</label>
+                        <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="purchase_order_file"> {% endcomment %}
+                        Click here to download Sales Order Invoice<br>
+                        {% if purchase_order_update.purchase_order_file %}
+                        <a href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
+                        {% else %}
+                         No Document Uploaded
+                        {% endif %}
+                        <br>
+                    </div>
+                </div>
+                <div class="col-3">
+                    {% comment %} <label class="form-label">Upload Delivery Challan</label>
+                    <input type="file" class="form-control-file" name="update_delivery_challan" value="{{purchase_order_update.delivery_challan}}"> {% endcomment %}
+                    Click here to download Delivery Challan <br>
+                    {% if purchase_order_update.delivery_challan%}
+                    <a href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
+                    {% else %}
+                    No Document Uploaded
+                    {% endif %}
+                    <br>
+                </div>
+                <div class="col-3">
+                    {% comment %} <label class="form-label">Upload Packing List</label>
+                    <input type="file" class="form-control-file" name="packing_list"> {% endcomment %}
+                    Click here to download Packing List <br>
+                    {% if purchase_order_update.packing_list %}
+                    <a href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
+                    {% else %}
+                    No Document Uploaded
+                    {% endif %}
+                    <br>
+                </div>
+                <div class="col-3">
+                    {% comment %} <label class="form-label">Uplaod EV List</label>
+                    <input type="file" class="form-control-file" name="ev_list"> {% endcomment %}
+                    Click here to download EV list <br>
+                    {% if purchase_order_update.ev_list %}
+                    <a href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
+                    {% else %}
+                    No Document Uploaded
+                    {% endif %}
+                    <br>
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+            <a href="{% url 'purchase-order-dashboard'%}" class="btn btn-lg fw-bold"
+                style="background-color:#ed8b00;">Back To
+                DashBoard</a>
+        </div>
+    </div>
+    </div>
+    <br><br><br>
+{% endblock content %}
