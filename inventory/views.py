@@ -6,9 +6,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
 from django.db.models import Q
-import barcode
-from barcode import EAN13
-from barcode.writer import ImageWriter
+# import barcode
+# from barcode import EAN13
+# from barcode.writer import ImageWriter
 import io
 from django.core.files import File
 # # from barcode.writer import ImageWriter

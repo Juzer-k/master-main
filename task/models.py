@@ -14,6 +14,7 @@ class Client(models.Model):
     industry = models.CharField(max_length=30, default="")
     region = models.CharField(max_length = 50)
 
+
 class Manufacturer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     m_company = models.CharField(max_length = 50)

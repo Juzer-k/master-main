@@ -64,7 +64,7 @@ class VendorUnitModelAdmin(admin.ModelAdmin):
     
 @admin.register(VendorUnitAddress)
 class VendorBillingAddressModelAdmin(admin.ModelAdmin):
-    list_display =['id','user','vendor_attention','vendor_country', 'vendor_address', 'vendor_city', 'vendor_state', 'vendor_zip_code', 'vendor_phone_number']
+    list_display =  ['id','user','vendor_attention','vendor_country', 'vendor_address', 'vendor_city', 'vendor_state', 'vendor_zip_code', 'vendor_phone_number']
     
 # @admin.register(LengthOfProduct)
 # class LengthOfProductModelAdmin(admin.ModelAdmin):
