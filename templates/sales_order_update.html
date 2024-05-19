@@ -9,6 +9,16 @@
         <div class="row">
             {% comment %} Sales Order Detail {% endcomment %}
             <div class="col-6">
+                <div class="">
+                    {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                      <strong>{{ message }}</strong>
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>  
+                    {% endfor %}
+                    {% endif %}
+                </div>
                 <h3 class="my-3 fw-bold">Update Sales Order Detail</h3>
                 <div class="mb-3">
                     <label class="form-label">Customer* :</label>
@@ -134,23 +144,14 @@
         <hr>
 
         <h2 class="fw-bold">Product Detail</h2>
-        <div class="">
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-              <strong>{{ message }}</strong>
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>  
-            {% endfor %}
-            {% endif %}
-        </div>
+     
         <div class="row">
          
 
             <div class="table-responsive">
                 <table class="table align-middle table-bordered ">
                     <thead>
-                        <tr class="bg-info">
+                        <tr style="background-color:#ed8b00;">
                             {% comment %} <th scope="col">Sno.</th> {% endcomment %}
                             <th scope="col" style="width: 200px; min-width: 200px;">Product Name & Product length</th>
                             <th scope="col" style="width: 200px; min-width: 200px;">Weight Calculation</th>
@@ -160,9 +161,9 @@
                             <th scope="col" style="width: 200px; min-width: 200px;">GST Percentage</th>
                             <th scope="col" style="width: 200px; min-width: 200px;">Total Cost</th>
                             <th scope="col" style="width: 200px; min-width: 200px;">Auto Logistic Fitment</th>
-                            <th scope="col" style="width: 200px; min-width: 200px;">Comment</th>
+                            {% comment %} <th scope="col" style="width: 200px; min-width: 200px;">Comment</th> {% endcomment %}
                             <th scope="col" style="width: 200px; min-width: 200px;">Customer Approval</th>
-                            <th scope="col" style="width: 200px; min-width: 200px;">Manufacturer Approval</th>
+                            {% comment %} <th scope="col" style="width: 200px; min-width: 200px;">Manufacturer Approval</th> {% endcomment %}
                         </tr>
                     </thead>
                     <tbody>
@@ -218,10 +219,10 @@
                                     value="{{i.auto_logistic_fillment}}">
                             </td>
                             
-                            <td>
+                            {% comment %} <td>
                                 <textarea class="form-control" name="order_comment" rows="2"
                                     readonly>{{i.order_comment}}</textarea>
-                            </td>
+                            </td> {% endcomment %}
                             <td>
                             <select class="form-control" name="customer_approval">
                                 <option selected>{{i.customer_order_approval}}</option>
@@ -231,11 +232,11 @@
                                 <option>Cancel</option>
                             </select>
                         </td>
-                        <td>
+                        {% comment %} <td>
                             <select class="form-control" readonly>
                                 <option selected>{{i.manufacturer_order_approval}}</option>
                             </select>
-                        </td>
+                        </td> {% endcomment %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -272,8 +273,8 @@
                         <label class="form-label">Upload Sales Order Invoice</label>
                         <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="update_sales_order_file">
                         {% if sales_order_update.sales_order_file %}
-                        Click here to download Sales Order Invoice<br>
-                        <a href="{{sales_order_update.sales_order_file.url}}" target="_blank">{{sales_order_update.sales_order_file}}</a>
+                        Click here to download Sales Order Invoice<br><br>
+                        <a href="{{sales_order_update.sales_order_file.url}}" class="text-dark fw-bold" title="Download Sales Order Invoice" target="_blank">{{sales_order_update.sales_order_file}}</a>
                         {% else %}
                          No Document Uploaded
                         {% endif %}
@@ -284,8 +285,8 @@
                     <label class="form-label">Upload Delivery Challan</label>
                     <input type="file" class="form-control-file" name="update_delivery_challan" value="{{sales_order_update.delivery_challan}}">
                     {% if sales_order_update.delivery_challan%}
-                    Click here to download Delivery Challan <br>
-                    <a href="{{sales_order_update.delivery_challan.url}}" target="_blank">{{sales_order_update.delivery_challan}}</a>
+                    Click here to download Delivery Challan <br><br>
+                    <a href="{{sales_order_update.delivery_challan.url}}" class="text-dark fw-bold" title="Download Delivery Challan" target="_blank">{{sales_order_update.delivery_challan}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %}
@@ -295,8 +296,8 @@
                     <label class="form-label">Upload Packing List</label>
                     <input type="file" class="form-control-file" name="packing_list">
                     {% if sales_order_update.packing_list %}
-                    Click here to download Packing List<br>
-                    <a href="{{sales_order_update.packing_list.url}}" target="_blank">{{sales_order_update.packing_list}}</a>
+                    Click here to download Packing List<br><br>
+                    <a href="{{sales_order_update.packing_list.url}}" class="text-dark fw-bold" title="Download Packing List" target="_blank">{{sales_order_update.packing_list}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %}
@@ -306,8 +307,8 @@
                     <label class="form-label">Uplaod EV List</label>
                     <input type="file" class="form-control-file" name="ev_list">
                     {% if sales_order_update.ev_list %}
-                    Click here to download EV List<br>
-                    <a href="{{sales_order_update.ev_list.url}}" target="_blank">{{sales_order_update.ev_list}}</a>
+                    Click here to download EV List<br><br>
+                    <a href="{{sales_order_update.ev_list.url}}" class="text-dark fw-bold" title="Download EV List" target="_blank">{{sales_order_update.ev_list}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %} 
@@ -318,8 +319,9 @@
 
 
             <div class="container">
+                <br>
                 <button type="sumbit" class="btn float-end btn-lg fw-bold"
-                    style="background-color:#ed8b00;">Save</button>
+                    style="background-color:#ed8b00;">Update Sales Order</button>
             </div>
     </form>
 </div>

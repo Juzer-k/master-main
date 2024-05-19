@@ -88,7 +88,7 @@ class ManufacturingUnitAddress(models.Model):
     manufacturing_unit_phone_number = models.IntegerField()
     manufacturing_unit_fax = models.CharField(max_length = 50)
 
-     # manufacturing unit detail
+     # manufacturing unit detail 
 class ManufacturingUnit(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     unit_type = models.CharField(max_length=20, null=True, blank=True, default="")

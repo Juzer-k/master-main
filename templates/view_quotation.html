@@ -1,5 +1,5 @@
 {% extends 'customer_navbar.html' %}
-{% load static %}
+{% load static %} 
 {% block title %}Create Quotation{% endblock title %}
 {% block content %}
 
@@ -26,7 +26,7 @@
                 </div> {% endcomment %}
                 
                 <div class="mb-3">
-                    <label class="form-label">Customer* :</label>
+                    <label class="form-label">Manufacturer* :</label>
                     {% comment %} <div id="list1" class="dropdown-check-list dropdown-toggle" data-toggle="dropdown">
                         <input type="button" class="anchor" value="Select Customer">
                         <ul class="items dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -65,13 +65,15 @@
 
             <table class="table align-middle">
                 <thead>
-                    <tr class="bg-info">
+                    <tr style="background-color:#ed8b00;">
                         {% comment %} <th scope="col">mf unit</th> {% endcomment %}
                         <th scope="col">Product Name & Product Length*</th>
                         {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
                         <th scope="col">Quantity*</th>
                         {% comment %} <th scope="col">Bundle Number*</th> {% endcomment %}
-                        <th scope="col">Cost Of Product*</th>
+                        <th scope="col">Price*</th>
+                        <th scope="col">GST Percentage*</th>
+                        <th scope="col">Total Cost*</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,26 +83,39 @@
                        
                         
                         <td scope="row">
-                            <select name="product_name" class="productName product form-control my-2" readonly>
-                                <option value="{{i.tempproduct.item_name}}" selected>{{i.tempproduct.item_name}}</option>
+                            <select value="{{i.id}}"
+                                    class="productName product form-control my-2" readonly>
+                                <option value="{{i.id}}">{{i.tempproduct.item_name}}</option>
                                 {% comment %} <option value="Select Product">Select Product</option>
                                 {% for i in product %}
                                 <option value="{{i.id}}">{{i.item_name}}</option>
                                 {% endfor %} {% endcomment %}
-                            </select>
+                            </select> 
                         </td>
                         
                         
                         <td>
-                            <input type="text" class="form-control my-2" name="quantity" value="{{i.quantity}}" required readonly>
+                            <input type="text" class="form-control my-2"  id="{{i.id}}_quantity"
+                                   onchange="changeqty(this);"
+                                         value="{{i.quantity}}"  readonly>
                         </td>
                         
                         {% comment %} <td>
                             <input type="text" class="form-control my-2" value="" name="bundle_number" required>
                         </td> {% endcomment %}
+                        <td>
+                            <input type="text" class="form-control my-2" id="{{i.id}}_price"
+                                   value="{{i.price}}"   readonly>
+                        </td>
+
+                        <td>
+                            <input type="text" class="form-control my-2" value="{{i.gst}}" id="{{i.id}}_gst"
+                                     readonly>
+                        </td>
                         
                         <td>
-                            <input type="text" class="amount form-control my-2" value="{{i.cost_of_product}}" name="product_cost" required readonly>
+                            <input type="text" class="amount form-control my-2" id="{{i.id}}_amount"
+                                   value="{{i.cost_of_product}}"  readonly>
                         </td>
                         
                        

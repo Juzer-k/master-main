@@ -1,92 +1,60 @@
 {% extends 'manufacturer_navbar.html' %}
 {% load static %}
-{% block title %}View Order{% endblock title %}
+{% block title %}Update Purchase Order{% endblock title %}
 {% block content %}
 
 <div class="container-fluid">
-
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
-            {% comment %} Sales Order Detail {% endcomment %}
+            {% comment %} purchase Order Detail {% endcomment %}
             <div class="col-6">
-                <h3 class="my-3 fw-bold">Order Detail</h3>
+                <h3 class="my-3 fw-bold">Update Purchase Order Detail</h3>
                 <div class="mb-3">
-                    <label class="form-label">Manufacturer Unit Name* :</label>
-                    <input type="text" class="form-control" value="{{sales_order_update.manufacturing_unit|capfirst}}"
-                        readonly>
+                    <label class="form-label">Unit Type* :</label>
+                    <input type="text" class="form-control"
+                        value="{{purchase_order_update.unit_type}}" readonly>
                 </div>
-
-
                 <div class="mb-3">
-                    <label class="form-label">Sales Order* :</label>
-                    <input type="text" class="form-control" value="S0-{{sales_order_update.id}}" readonly>
-                </div>
+                    
+                    <label class="form-label">Manufacturing / Distributor Unit Name* :</label>
+                    <select class="form-control" onchange="" name = "manufacturer_unit" readonly>
 
-                {% comment %} <div class="row">
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label class="form-label">Manufacturer Contact Person Name :</label>
-                            <input type="text" class="form-control"
-                                value="{{sales_order_update.manufacturer_contact_person_name|capfirst}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label class="form-label">Manufacturer Contact Phone number :</label>
-                            <input type="text" class="form-control"
-                                value="{{sales_order_update.manufacturer_contact_person_phone_number}}" readonly>
-                        </div>
-                    </div>
-                </div> {% endcomment %}
+                        <option value="{{purchase_order_update.manufacturing_unit}}" selected>
+                            {{purchase_order_update.manufacturing_unit}}</option>
 
+                        {% comment %} <option>Select Manufacturing Unit</option>
+                        {% for i in display_manufacturer_unit %}
 
-
-                <div class="mb-3">
-                    <label class="form-label">Sales Order Date* :</label>
-                    <input type="text" class="form-control" value="{{sales_order_update.sales_order_date}}" readonly>
-                </div>
-
-               
-               
-
-                <div class="mb-3">
-                    <label class="form-label">Order Status :</label>
-                    <select class="form-control" name="status">
-                        <option value="{{sales_order_update.order_status}}" selected>{{sales_order_update.order_status}}
-                        </option>
-                        <option>-------------</option>
-                        <option>Accepted</option>
-                        <option>Accepted with change</option>
-                        <option>In Production</option>
-                        <option>Packed</option>
-                        <option>Shipped</option>
-                        <option>Delivered</option>
-                        <option>Cancel</option>
+                        <option value="{{i.company_name}}">{{i.company_name}}</option>
+                        {% endfor %} {% endcomment %}
                     </select>
                 </div>
 
-                <div class="row">
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label class="form-label">Expected Shipment Date* :</label>
-                            <input type="text" class="form-control" value="{{sales_order_update.exp_shipment_date}}" readonly>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="mb-3">
-                            <label class="form-label">Change Shipment Date* :</label>
-                            <input type="date" name="change_shipment_date" class="form-control" value="{{sales_order_update.exp_shipment_date}}">
-                        </div> 
-                        {% comment %} to enable this feild delete all migration file {% endcomment %}
-                    </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Purchase Order* :</label>
+                    <input type="text" class="form-control" name="purchase_order"
+                        value="P0-{{purchase_order_update.id}}" readonly>
                 </div>
-                
+
+                <div class="mb-3">
+                    <label class="form-label">Purchase Order Date* :</label>
+                    <input type="text" class="form-control" name="purchase_order_date"
+                        value="{{purchase_order_update.purchase_order_date}}" readonly>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Expected Shipment Date* :</label>
+                    <input type="text" class="form-control" name="expected_shipment_date"
+                        value="{{purchase_order_update.exp_shipment_date}}" readonly>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label">Payment Term :</label>
-                    <select class="form-control" name="payment_term">
-                        <option selected>{{sales_order_update.payment_term}}</option>
-                        <option>------------------</option>
+                    <select class="form-control" name="paymentterm">
+                        <option selected>{{purchase_order_update.payment_term}}</option>
+                        <option>Select Payment Term</option>
                         <option>Advance Paid</option>
                         <option>Due next of the month</option>
                         <option>Due end of the month</option>
@@ -103,25 +71,38 @@
                 <div class="mb-3">
                     <label class="form-label">Delivery Method :</label>
                     <input type="text" class="form-control" name="delivery_method"
-                        value="{{sales_order_update.delivery_method|capfirst}}">
+                        value="{{purchase_order_update.delivery_method|capfirst}}">
                 </div>
 
-
-
+                <div class="mb-3">
+                    <label class="form-label">Order Status :</label>
+                    <select class="form-control" name="status" readonly>
+                        <option value="{{purchase_order_update.order_status}}" selected>{{purchase_order_update.order_status}}
+                        </option>
+                        {% comment %} <option>-------------</option>
+                        <option>Accepted</option>
+                        <option>Accepted with change</option>
+                        <option>In Production</option>
+                        <option>Packed</option>
+                        <option>Shipped</option>
+                        <option>Delivered</option>
+                        <option>Cancel</option> {% endcomment %}
+                    </select>
+                </div>
 
                 <div class="row">
                     <div class="col-6">
                         <div class="mb-3">
                             <label class="form-label">Customer Sales Person :</label>
-                            <input type="text" class="form-control"
-                                value="{{sales_order_update.customer_sales_person|capfirst}}" readonly>
+                            <input type="text" class="form-control" name="customer_sales_person"
+                                value="{{purchase_order_update.customer_sales_person|capfirst}}">
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="mb-5">
+                        <div class="mb-3">
                             <label class="form-label">Customer Phone number :</label>
-                            <input type="text" class="form-control" value="{{sales_order_update.customer_phone_number}}"
-                                readonly>
+                            <input type="text" class="form-control" name="customer_phone_number"
+                                value="{{purchase_order_update.customer_phone_number}}">
                         </div>
                     </div>
                 </div>
@@ -132,158 +113,198 @@
 
         <h2 class="fw-bold">Product Detail</h2>
         <div class="row">
-            <table class="table align-middle table-bordered">
-                <thead>
-                    <tr class="bg-info">
-                        {% comment %} <th scope="col">Sno.</th> {% endcomment %}
-                        <th scope="col">Product Name & Product Length</th>
-                        {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
-                        <th scope="col">Weight Calculation</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Auto Logistic Fitment</th>
-                        <th scope="col">Bundle Number</th>
-                        <th scope="col">Cost Of Product</th>
-                        <th scope="col">Comment</th>
-                        <th scope="col">Manufacturer Approval</th>
-                        <th scope="col">Customer Approval</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for i in product %}
-                    <tr>
-                        {% comment %} <th scope="row" class="mt-2">
-                            {{forloop.counter}}
-                        </th> {% endcomment %}
-                        <td>
-                            <input type="text" class="form-control my-2" value="{{i.product_name}}" name="product_name" readonly>
-                        </td>
-                        {% comment %} <td>
-                            <input type="text" class="form-control my-2" value="{{i.length_of_product}}"
-                                name="product_length">
-                        </td> {% endcomment %}
-                        <td>
-                            <input type="text" class="form-control my-2" value="{{i.weight_of_product}}"
-                                name="weight_calculation">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control my-2" value="{{i.quantity}}" name="quantity">
-                        </td>
-                        <td>
-                            <input type="text" class="form-control my-2" value="{{i.auto_logistic_fillment}}" name="auto_logistic">
-                        </td>
+            <div class="table-responsive">
+                <table class="table align-middle table-bordered">
+                    <thead>
+                        <tr style="background-color:#ed8b00;" >
+                            {% comment %} <th scope="col">Sno.</th> {% endcomment %}
+                            <th scope="col" style="width: 200px; min-width: 200px;">Product Name & Product Length</th>
+                            {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
+                            <th scope="col" style="width: 200px; min-width: 200px;">Weight Calculation</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Quantity</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Bundle Number</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Price</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">GST Percentage</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Total Cost</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Auto Logistic Fitment</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Comment</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Customer Approval</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Vendor Approval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in product_list %}
+                        <tr>
+                            {% comment %} <th scope="row" class="mt-2">
+                                {{forloop.counter}}
+                            </th> {% endcomment %}
+                            <td>
+                                <input type="text" class="form-control my-2" name="product_name" value="{{i.product_name}}" readonly>
+                            </td>
+                            {% comment %} <td>
+                                <input type="text" class="form-control my-2" name="product_length"
+                                    value="{{i.length_of_product}}">
+                            </td> {% endcomment %}
+                            <td>
+                                <input type="text" class="form-control my-2" name="weight_calculation"
+                                    value="{{i.weight_of_product}}">
+                            </td>
+                            <td>
+                                <input type="text" class="form-control my-2" name="quantity" id="{{i.id}}_qty"
+                                       onchange="changeqty(this)" value="{{i.quantity}}">
+                            </td>
+                            
+                            <td>
+                                <input type="text" class="form-control my-2" value="{{i.bundle_number}}" name="bundle_number">
+                            </td>
+                            
+                            <td>
+                                <input type="text" class="amount form-control my-2" value="{{i.cost_of_product}}"
+                                       id="{{i.id}}_price"
+                                       name="product_cost" readonly>
+                            </td>
 
-                        <td>
-                            <input type="text" class="form-control my-2" value="{{i.bundle_number}}" name="bundle_number">
-                        </td>
+                            <td>
+                                <input type="text" class="amount form-control my-2" value="{{i.gst}}"
+                                       id="{{i.id}}_gst"
+                                       name="gst" readonly>
+                            </td>
 
-                        <td>
-                            <input type="text" class="amount form-control my-2" value="{{i.cost_of_product}}" name="product_cost">
-                        </td>
+                            <td>
+                                <input type="text" class="amount form-control my-2"
+                                       id="{{i.id}}_total_cost"
+                                       value="{{i.total_cost}}" name="total_cost" readonly>
+                            </td>
 
-
-                        <td>
-                            <textarea class="form-control" name="order_comment" rows="2">{{i.order_comment}}</textarea>
-                        </td>
-                    
-                        <td>
-                            <select name="manufacturer_approval" class="form-control">
-                                <option>{{i.manufacturer_order_approval}}</option>
-                                <option>---------</option>
+                            <td>
+                                <input type="text" class="form-control my-2" name="auto_logistic"
+                                    value="{{i.auto_logistic_fillment}}">
+                            </td>
+                            
+                            <td>
+                                <textarea class="form-control" name="order_comment" rows="2"
+                                    readonly>{{i.order_comment}}</textarea>
+                            </td>
+                            <td>
+                            <select class="form-control" name="customer_approval">
+                                <option selected>{{i.manufacturer_order_approval}}</option>
+                                <option>-----------</option>
+                                <option>Order Placed</option>
                                 <option>Accepted</option>
-                                <option>Accepted with change</option>
                                 <option>Cancel</option>
                             </select>
                         </td>
-
                         <td>
                             <select class="form-control" readonly>
-                                <option>{{i.customer_order_approval}}</option>
+                                <option selected>{{i.vendor_order_approval}}</option>
                             </select>
                         </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             <div class="row">
                 <div class="col-12">
                     <div class="d-flex justify-content-end">
                      <div class="mb-3">
                         <label class="form-label fw-bold">Total Amount :</label>
-                        <input type="text" id="total" class="form-control w-75" name="total_amount" value="{{sales_order_update.total_amount}}" readonly>
+                        <input type="text" id="total" class="form-control w-75" name="total_amount" value="{{purchase_order_update.total_amount}}" readonly>
                      </div>
                     </div>
                 </div>
             </div>
 
+
             <div class="row">
                 <div class="col-12">
                     <div class="mb-3">
                         <label class="form-label">Terms & Conditions</label>
-                        <textarea class="form-control" rows="3"
-                            readonly>{{sales_order_update.terms_and_conditions|capfirst}}</textarea>
+                        <textarea class="form-control" rows="4"
+                            name="terms_and_conditions">{{purchase_order_update.terms_and_conditions|capfirst}}</textarea>
                     </div>
                 </div>
                
-
-            </div>
-            
-            <div class="row">
-                <div class="col-3">
-                    <div class="form-group">
-                        <label class="form-label">Upload Sales Order Invoice</label>
-                        <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="update_sales_order_file">
-                        {% if sales_order_update.sales_order_file %}
-                        Click here to download Sales Order Invoice<br>
-                        <a href="{{sales_order_update.sales_order_file.url}}" target="_blank">{{sales_order_update.sales_order_file}}</a>
+                <div class="row">
+                    <div class="col-3">
+                        <div class="form-group">
+                            <label class="form-label">Upload Sales Order Invoice</label>
+                            <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="purchase_order_file">
+                            {% if purchase_order_update.purchase_order_file %}
+                            Click here to download Sales Order Invoice<br>
+                            <a href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
+                            {% else %}
+                             No Document Uploaded
+                            {% endif %}
+                            <br>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Upload Delivery Challan</label>
+                        <input type="file" class="form-control-file" name="update_delivery_challan" value="{{purchase_order_update.delivery_challan}}">
+                        {% if purchase_order_update.delivery_challan%}
+                        Click here to download Delivery Challan <br>
+                        <a href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
                         {% else %}
-                         No Document Uploaded
+                        No Document Uploaded
+                        {% endif %}
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Upload Packing List</label>
+                        <input type="file" class="form-control-file" name="packing_list">
+                        {% if purchase_order_update.packing_list %}
+                        Click here to download Packing List <br>
+                        <a href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
+                        {% else %}
+                        No Document Uploaded
+                        {% endif %}
+                        <br>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label">Uplaod EV List</label>
+                        <input type="file" class="form-control-file" name="ev_list">
+                        {% if purchase_order_update.ev_list %}
+                        Click here to download EV List <br>
+                        <a href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
+                        {% else %}
+                        No Document Uploaded
                         {% endif %}
                         <br>
                     </div>
                 </div>
-                <div class="col-3">
-                    <label class="form-label">Upload Delivery Challan</label>
-                    <input type="file" class="form-control-file" name="update_delivery_challan" value="{{sales_order_update.delivery_challan}}">
-                    {% if sales_order_update.delivery_challan%}
-                    Click here to download Delivery Challan <br>
-                    <a href="{{sales_order_update.delivery_challan.url}}" target="_blank">{{sales_order_update.delivery_challan}}</a>
-                    {% else %}
-                    No Document Uploaded
-                    {% endif %}
-                    <br>
-                </div>
-                <div class="col-3">
-                    <label class="form-label">Upload Packing List</label>
-                    <input type="file" class="form-control-file" name="packing_list">
-                    {% if sales_order_update.packing_list %}
-                    Click here to download Packing List <br>
-                    <a href="{{sales_order_update.packing_list.url}}" target="_blank">{{sales_order_update.packing_list}}</a>
-                    {% else %}
-                    No Document Uploaded
-                    {% endif %}
-                    <br>
-                </div>
-                <div class="col-3">
-                    <label class="form-label">Uplaod EV List</label>
-                    <input type="file" class="form-control-file" name="ev_list">
-                    {% if sales_order_update.ev_list %}
-                    Click here to download EV List <br>
-                    <a href="{{sales_order_update.ev_list.url}}" target="_blank">{{sales_order_update.ev_list}}</a>
-                    {% else %}
-                    No Document Uploaded
-                    {% endif %}
-                    <br>
-                </div>
+
             </div>
             <div class="container">
-                <button class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Update Status</button>
-                <a href="{% url 'manufacturer-dashboard'%}" class="btn btn-lg fw-bold mx-2"
-                    style="background-color:#ed8b00;">Back To
-                    DashBoard</a>
+                <br>
+                <button type="sumbit" class="btn float-end btn-lg fw-bold"
+                    style="background-color:#ed8b00;">Update Purchase Order</button>
             </div>
     </form>
 </div>
 </div>
 <br><br><br>
+<script>
+    function changeqty(event){
+        debugger;
+        a = event.id;
+        b = a.split('_')[0];
+        const price  = document.getElementById(b+'_price').value;
+        const gst  = document.getElementById(b+'_gst').value;
+        const amount  = document.getElementById(b+'_total_cost').value;
+        qty = 0
+        if (event.value){
+            qty = event.value;
+        }
+        else{
+            qty = document.getElementById(a).value;
+        }
+        var totalCost = Number(price * qty) + Number((price * gst * qty) / 100);
+        totalCost = Number(totalCost).toFixed(2);
+        document.getElementById(b+'_total_cost').value = totalCost;
+        document.getElementById('total').value =  Number(Number(document.getElementById('total').value) + Number(totalCost) - Number(amount)).toFixed(2);
+    }
+
+</script>
+</script>
 {% endblock content %}

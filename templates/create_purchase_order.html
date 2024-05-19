@@ -14,10 +14,10 @@
                 <h3 class="my-3 fw-bold">Purchase Order Detail</h3>
 
                 <div class="mb-3">
-                    <label class="form-label">Type* :</label>
+                    <label class="form-label">Unit Type* :</label>
                     {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
                       <select class="form-control unitTypePurchaseOrder" onchange="" name="distributor" id="" autofocus  required>
-                        <option value="">Select Customer Type</option>
+                        <option value="">Select Unit Type</option>
                         <option value="Distributer">Distributer</option>
                         <option value="Manufacturer">Manufacturer</option>
                            <option value="Trader">Trader</option>
@@ -28,14 +28,14 @@
 
 
                 <div class="mb-3">
-                    <label class="form-label">Customer* :</label>
+                    <label class="form-label">Unit* :</label>
                       <select class="form-control vendorUnitName distManuName" onchange="" name="vendor_unit_name" id="">
-                        <option selected >Select Customer</option>
+                        <option selected >Select Unit</option>
                         {% comment %} {% for vendor_unit in display_vendor_unit %}
                         <option value="{{vendor_unit.company_name}}">{{vendor_unit.company_name}}</option>
                         {% endfor %} {% endcomment %}
                     </select>
-                    <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Manufacturer / Distributer Unit</a>
+                    {% comment %} <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Manufacturer / Distributer Unit</a> {% endcomment %}
                 </div>
                 
                
@@ -200,8 +200,8 @@
     
 <br><br>
         <div class="container text-end">
-            <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a>
-            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Order</button>
+            {% comment %} <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a> {% endcomment %}
+            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Purchase Order</button>
         </div>
     </form>
 </div>

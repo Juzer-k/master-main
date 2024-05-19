@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="{% static 'css/inventory_style.css'%}">
   <link rel="stylesheet" href="{% static 'css/inventory.css'%}">
   <link href="https://fonts.cdnfonts.com/css/hyperion-sunset-brk" rel="stylesheet"> 
-  <title>Tech Maadhyam | {% block title %}{% endblock title %}</title>
+  <title> industryHub | {% block title %}{% endblock title %}</title>
   <link rel="icon" type="image/x-icon" href="{% static 'images/icon/favicon.ico'%}">
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -28,7 +28,7 @@
       <div class="col-2" style="background-color:black;">
         <div class="text-center">
   
-          <img src="{%static 'images/tm_logo.png'%}" class="mx-auto d-block mt-5" alt="" width="100%">
+          <img src="{%static 'images/industryhub logo 2.jpg'%}" class="mx-auto d-block mt-5" alt="" width="100%">
           <br><br> 
           <a href="{% url 'customer-dashboard' %}" class="dropdown-btn btn fw-bold text-center text-dark fs-5" style="background-color:#ed8b00;">Dashboard</a><br>
           {% comment %} <a href="{% url 'create-sale-order' %}" class="fw-bold w-100 btn btn text-dark my-3" style="background-color:#ed8b00;">Place Order</a><br> {% endcomment %}
@@ -39,7 +39,7 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-              <a href="{% url 'quotation' %}">Create Quotation</a>
+              <a href="{% url 'create-quotation' %}">Create Quotation</a>
               <a href="{% url 'quotation-dashboard' %}">View Quotations</a>
               
             </div>
@@ -51,9 +51,9 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-              <a href="{% url 'create-sale-order' %}">Create Order</a>
-              <a href="{% url 'view-sales-order-dashboard' %}">View Orders</a>
-              <a href="{% url 'view-sales-order-dashboard' %}">Order Invoice</a>
+              <a href="{% url 'create-sale-order' %}">Create Sales Order</a>
+              <a href="{% url 'view-sales-order-dashboard' %}">View Sales Orders</a>
+              {% comment %} <a href="{% url 'view-sales-order-dashboard' %}">Order Invoice</a> {% endcomment %}
             </div>
           </div>
 <br>
@@ -62,13 +62,13 @@
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-              <a class="hoverColor" href="{% url 'add-purchase-order' %}">Create Order</a>
-              <a class="hoverColor" href="{% url 'purchase-order-dashboard' %}">View Orders</a>
-              <a class="hoverColor" href="{% url 'purchase-order-dashboard' %}">Order Invoice</a>
-            </div>
+              <a class="hoverColor" href="{% url 'add-purchase-order' %}">Create Purchase Order</a>
+              <a class="hoverColor" href="{% url 'purchase-order-dash' %}">View Purchase Orders</a>
+              {% comment %} <a class="hoverColor" href="{% url 'purchase-order-dashboard' %}">Order Invoice</a> {% endcomment %}
+            </div> 
           </div>
 <br>
-          <a href="{% url 'manufacturing-unit-dashboard' %}" class="dropdown-btn btn fw-bold text-center text-dark fs-5" style="background-color:#ed8b00;margin-top: 15px;">View Customers</a><br>
+          <a href="{% url 'manufacturing-unit-dashboard' %}" class="dropdown-btn btn fw-bold text-center text-dark fs-5" style="background-color:#ed8b00;margin-top: 15px;">View Unit</a><br>
           {% comment %} <a href="{% url 'add-category' %}" class="fw-bold w-100 btn btn text-dark my-3" style="background-color:#ed8b00;">Inventory</a><br> {% endcomment %}
 
           <div class="side mt-3">
@@ -95,8 +95,8 @@
       <div class="col-10">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
           <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'customer-dashboard' %}" style="font-family: 'Hyperion Sunset BRK', sans-serif;
-            color:#ed8b00;">TECH MAADHYAM <span class="fw-bold text-dark" style="font-family: Arial;">| {{request.user.username|capfirst}}</span></a>
+            <a class="navbar-brand fw-bold" href="{% url 'customer-dashboard' %}" style="font-family: 'Hyperion Sunset BRK', sans-serif;
+            color:#ed8b00;">industryHub <span class="fw-bold text-dark" style="font-family: Arial;">| {{request.user.username|capfirst}}</span></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
@@ -110,12 +110,12 @@
                 </ul>
               </div>
 
-              <form class="d-flex" method="get" action="/search-result">
+              {% comment %} <form class="d-flex" method="get" action="/search-result">
                   <input class="form-control me-2" type="search" placeholder="Search Order" aria-label="Search" name="search">
                   <button class="btn btn-dark" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
                     <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                   </svg></button>
-                </form>
+                </form> {% endcomment %}
 
                 <div id="mySidenav" class="sidenav">
                   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -145,7 +145,7 @@
       </div>
 
       <div class="text-center p-5" style="background-color:black;">
-        <p style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;"> &copy; TECH MAADHYAM</p>
+        <p class= " fw-bold" style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;"> &copy; industryHub</p>
       </div>
 
 

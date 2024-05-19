@@ -1,9 +1,9 @@
 from pyexpat import model
 from django.db import models
 from django.contrib.auth.models import User
-import barcode
+# import barcode
 from io import BytesIO
-from barcode.writer import ImageWriter
+# from barcode.writer import ImageWriter
 from django.core.files import File
 
 # Create your models here.
@@ -127,21 +127,21 @@ class Inventory(models.Model):
     hsn_code = models.CharField(max_length=300, null=True, blank=True)
     type = models.CharField(max_length=300, choices=ITEM_TYPE, default="Sell", null=True, blank=True)
     tax = models.CharField(max_length=200, null=True, blank=True)
-    barcode = models.ImageField(upload_to='barcode/', blank=True, null=True)
+    # barcode = models.ImageField(upload_to='barcode/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     
 
-    def get_barcode(self):
-        print("qqqqqqqqqqqqqqqqqqqqqqqqq",self.sku)
-        barcode_format = barcode.get_barcode_class('code128')
-        my_barcode = barcode_format(self.sku, writer=ImageWriter())
+    # def get_barcode(self):
+    #     print("qqqqqqqqqqqqqqqqqqqqqqqqq",self.sku)
+    #     barcode_format = barcode.get_barcode_class('code128')
+    #     my_barcode = barcode_format(self.sku, writer=ImageWriter())
 
-        buffer = BytesIO()
-        my_barcode.write(buffer)
-        return self.barcode.save(f'{self.sku}.png', File(buffer), save=False)
+    #     buffer = BytesIO()
+    #     my_barcode.write(buffer)
+    #     return self.barcode.save(f'{self.sku}.png', File(buffer), save=False)
 
-    def save(self, *args, **kwargs):
-        self.get_barcode()
-        super(Inventory, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.get_barcode()
+    #     super(Inventory, self).save(*args, **kwargs)

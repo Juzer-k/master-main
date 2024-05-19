@@ -25,7 +25,7 @@
 
                         <!-- Modal Header -->
 
-                        <div class="sub-heading shadow mb-4 rounded text-center text-dark fw-bold encrypted_header">
+                        <div class="sub-heading shadow mb-4 rounded text-center text-dark fw-bold encrypted_header " style="background-color:#ed8b00;">
                             Edit Warehouse
                         </div>
                         
@@ -96,7 +96,7 @@
                                 {% endfor %}
                                 </select> {% endcomment %}
                                 
-                                <input type="submit" id="btn-submit" name="btn-category" class="btn btn-primary" value="update Warehouse" required>
+                                <input type="submit" id="btn-submit" name="btn-category" class="btn float-end fw-bold" style="background-color:#ed8b00;" value="update Warehouse" required>
                             </form>
                                 
                         </div>
@@ -131,10 +131,10 @@
         </div>
         <div class="table-responsive">
             <table class="table table-bordered ">
-                <thead class="bg-info">
+                <thead style="background-color:#ed8b00;">
                     {% comment %} table-heading-blue {% endcomment %}
                     <tr>
-                        <th>Item id #</th>
+                        {% comment %} <th>Item id #</th> {% endcomment %}
                         <th>Item name</th>
                         <th>Item category</th>
                         <th style="width: 150px; min-width: 150px;">Current Stock</th>
@@ -142,19 +142,19 @@
                         <th style="width: 150px; min-width: 150px;">Price</th>
                         {% comment %} <th>Stock status</th> {% endcomment %}
                         <th>Product/Service</th>
-                        <th>Type</th>
+                        {% comment %} <th>Type</th> {% endcomment %}
                         <th>HSN Code </th>
                         <th>Tax </th>
                         <th>Warehouse </th>
                         <th style="width: 150px; min-width: 150px;" >Action</th>
-                        <th style="width: 150px; min-width: 150px;" >Show Barcode</th>
+                        {% comment %} <th style="width: 150px; min-width: 150px;" >Show Barcode</th> {% endcomment %}
                     </tr>
                 </thead>
                 <tbody class="table-data-purple">
                     <tr>
                         {% for item in get_inventory_data %}
                         <tr>
-                            <td>{{item.sku}}</td>
+                            {% comment %} <td>{{item.sku}}</td> {% endcomment %}
                             <td class="d-flex justify-content-between text-primary">{{ item.item_name }}
                             </td>
                             <td>{{ item.item_category}}</td>
@@ -164,19 +164,19 @@
                                 {{ item.price }}</td>
                             {% comment %} <td>Min limit missing</td> {% endcomment %}
                             <td>{{ item.product_or_service }}</td>
-                            <td>{{ item.type }}</td>
+                            {% comment %} <td>{{ item.type }}</td> {% endcomment %}
                             <td>{{ item.hsn_code }}</td>
-                            <td>{{ item.tax }}</td>
+                            <td>{{ item.tax }}%</td>
                             <td>{{ item.warehouse}}</td>
-                            <td><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                <a href="{% url 'edit-inventory-item' item.id %}" class="me-2">
-                                <path stroke="#00000" fill="#000000" d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                                
-                                </a></svg>
+                            <td>
+                                <a href="{% url 'edit-inventory-item' item.id %}" class="me-2 btn fw-bold btn-sm" title="Edit Inventory Product" style="background-color:#ed8b00;"s>
+                               
+                                    &#128393;
+                                </a>
                                 <i class="fa-solid fa-trash fa-fw item-delete text-danger" data-bs-toggle="modal"
                                 data-bs-target="#openmodaldelete" data-delete-item-id="{{ item.id }}"></i>
                                 <input type="hidden" class="delete-itemid" value="{{item.id}}"></td>
-                            <td> <input type="button" data-bs-toggle="modal" data-item-barcode="{{ item.barcode.url }}"data-bs-target="#openbarcode" class="btn btn-primary w-100 open_barcode btn-add px-1"value="Show Barcode"></td>                            
+                            {% comment %} <td> <input type="button" data-bs-toggle="modal" data-item-barcode="{{ item.barcode.url }}"data-bs-target="#openbarcode" class="btn btn-primary w-100 open_barcode btn-add px-1"value="Show Barcode"></td>                             {% endcomment %}
                         </tr>
                         {% endfor %}
                     </tr>

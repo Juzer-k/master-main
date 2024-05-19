@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.db.models import Q
 from django.shortcuts import redirect, render, HttpResponse
+from django.template import RequestContext
 from .functions.functions import handle_uploaded_file
 # from .forms import SalesOrderDocumentsForm
 from .models import *
@@ -97,7 +98,7 @@ def customer_registration(request):
                                                country=country, state=state, industry=industry, region=region)
                 user.save()
                 client.save()
-                return redirect('customer-registration-redirect')
+                return redirect('customer-login')
         return render(request, 'customer_registration.html')
     except:
         return HttpResponse('Something Went Wrong. Try Again After Some Time.')
@@ -276,7 +277,9 @@ def update_manufacturing_unit(request, id):
         update_manufacturing_unit_address.save()
         # billing_address.save()
         # customer_shipping_address.save()
-        return redirect('/manufacturing-unit-dashboard/')
+        messages.success(request, 'Details Updated Successfully.')
+
+        return redirect("/update-unit/" + str(id))
     # except:
     #     return HttpResponse('Something Went Wrong. Try Again After Some Time.')
     return render(request, 'update_manufacturing_unit.html',
@@ -656,7 +659,10 @@ def customer_dashboard(request):
         total_order_accepted = sales_order.count()
 
         order = SalesOrder.objects.filter(
-            Q(user=user) & Q(order_status='Accepted') & Q(exp_shipment_date=date.today())).order_by('-id')
+            Q(user=user) & Q(order_status='Accepted') & Q(exp_shipment_date=datetime.date.today())).order_by('-id')
+    
+            
+        
         purchase_order = PurchaseOrder.objects.filter(Q(user=user) & Q(order_status='Accepted'))
 
         purchase_order_total = purchase_order.count()
@@ -673,6 +679,7 @@ def customer_dashboard(request):
                    'total_purchase_order_placed': total_purchase_order_placed,
                    'purchase_order_filter': purchase_order_filter}
         return render(request, 'customer_dashboard.html', context)
+        # return HttpResponse()
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         print(exc_tb.tb_lineno, e)
@@ -712,23 +719,98 @@ def manufacturing_unit_dashboard(request):
         return HttpResponse('Something Went Wrong. Try Again After Some Time.')
 
 
-# search function for customer
+# search function for sales order
 @login_required(login_url='customer-login')
-def customer_search(request):
+def sales_order_search(request):
     try:
         user = request.user
-        customer_search_query = request.GET.get('search')
+        sales_order_search_query = request.GET.get('search')
         # search_result = ManufacturingUnit.objects.filter(Q(display_name__icontains = customer_search_query), user = user)
-        search_result = SalesOrder.objects.filter(Q(sales_order__icontains=customer_search_query) | Q(
-            manufacturing_unit__company_name__icontains=customer_search_query), user=user)
-        return render(request, 'customer_search.html',
-                      {'search_result': search_result, 'customer_search_query': customer_search_query})
+        search_result = SalesOrder.objects.filter(Q(sales_order__icontains=sales_order_search_query) | Q(
+            manufacturing_unit__company_name__icontains=sales_order_search_query), user=user).order_by("-id")
+        return render(request, 'sales_order_search.html',
+                      {'search_result': search_result, 'sales_order_search_query': sales_order_search_query})
 
     except:
         return HttpResponse('Something Went Wrong. Try Again After Some Time.')
 
+def edit_manufacturer_quotation(request,id):
+    quotation = Quotation.objects.get(id=id)
+    product_list = QuotationProduct.objects.filter(quotation__id=id)
+
+    if request.method == 'POST':
+        print(request.POST)
+        status = request.POST.get('status')
+        terms_and_conditions = request.POST.get('terms_and_conditions')
+        product = request.POST.getlist('product_name')
+        
+        cost = request.POST.getlist('price')
+        total_amount = request.POST.get('total_amount')
+        quantity = request.POST.getlist('quantity')
+
+        for i in range(len(product)):
+            print('check--', product[i])
+            quotationProduct = QuotationProduct.objects.get(id= product[i])
+            quotationProduct.quantity = quantity[i]
+            quotationProduct.price = cost[i]
+            quotationProduct.save()
+        record = Quotation.objects.get(id=id)
+        record.status = status
+        record.terms_and_condition = terms_and_conditions
+        record.total_amount = total_amount
+        record.save()
+
+        return redirect('manufacturer-quotation-dashboard')
+
+
+    return render(request, 'edit_manufacturer_quotation.html', {'quotation': quotation, 'product_list': product_list})
+
+
+# search function for quotation order
+@login_required(login_url='customer-login')
+def quotation_search(request):
+
+    user = request.user
+    quotation_search_query = request.GET.get('search')
+    search_result = Quotation.objects.filter(Q(assigning__manufacturers__icontains=quotation_search_query), user=user).order_by("-id")
+    print(search_result)
+    return render(request, 'search_quotation.html',
+                      {'search_result': search_result, 'quotation_search_query': quotation_search_query})
+
+@login_required(login_url='manufacturer-login')
+def manufacturer_quotation_search(request):
+    user = request.user
+    quotation_search_query = request.GET.get('search')
+    search_result = Quotation.objects.filter(Q(assigning__company_name__icontains=quotation_search_query), user=user).order_by("-id")
+    return render(request, 'manufacturer_quotation_search.html', {'search_result': search_result, 'quotation_search_query': quotation_search_query})
+
+# search function for manufacturing unit
+@login_required(login_url='customer-login')
+def search_manufacturering_unit(request):
+
+    user = request.user
+    manufacturing_unit_search_query = request.GET.get('search')
+    search_result = ManufacturingUnit.objects.filter(Q(company_name__icontains=manufacturing_unit_search_query), user=user).order_by("-id")
+    return render(request, 'search_manufacturing_unit.html',
+                      {'search_result': search_result, 'manufacturing_unit_search_query': manufacturing_unit_search_query})
+
+
+# search function for purchase order
+@login_required(login_url='customer-login')
+def search_purchase_order(request):
+
+    user = request.user
+    purchase_order_search_query = request.GET.get('search')
+    search_result = PurchaseOrder.objects.filter(Q(
+    manufacturing_unit__company_name__icontains=purchase_order_search_query), user=user).order_by("-id")
+    return render(request, 'purchase_order_search.html',
+                      {'search_result': search_result, 'purchase_order_search_query': purchase_order_search_query})
+
 
 # Quotation
+
+def create_quotation(request):
+    return render(request, "create_quotation.html")
 
 def quotation(request):
     user = request.user
@@ -774,32 +856,20 @@ def quotation(request):
     return render(request, 'quotation.html',
                   {'display_manufacturing_unit': display_manufacturing_unit, 'product': product})
 
+def manufacturer_quotation_dashboard(request):
+    quotation = Quotation.objects.filter(assigning__manufacturer__user=request.user).order_by('-id')
+    print(quotation)
+    paginator = Paginator(quotation, 10, orphans=3)
+    page_number = request.GET.get('page')
+    page_object = paginator.get_page(page_number)
+    return render(request, 'manufacturer_quotation_dashboard.html',{'quotation':page_object})
 
 def quotation_dashboard(request):
     quotation = Quotation.objects.filter(user=request.user).order_by('-id')
     paginator = Paginator(quotation, 10, orphans=3)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
-    # quotation_product = QuotationProduct.objects.filter(quotation__id)
-    #     product_list = ProductDetail.objects.filter(sales_order__id = id)
 
-    #   num = 0 
-    #         for obj in product_list:
-    #             print(obj)
-    #             obj.product_name = product_name[num]
-    #             print(product_name[num])
-    #             # obj = ProductDetail.objects.filter(sales_order__id = id)
-    #             # print(obj, "obj")
-    #             # obj.length_of_product = product_length[num]
-    #             obj.weight_of_product = weight_calculation[num]
-    #             obj.quantity = quantity[num]
-    #             obj.auto_logistic_fillment = auto_logistic[num]
-    #             obj.bundle_number = bundle_number[num]
-    #             obj.cost_of_product = cost_of_product[num]
-    #             obj.customer_order_approval = customer_approval[num]
-    #             print(obj.customer_order_approval)
-    #             obj.save()
-    #             num = num+1
     return render(request, 'quotation_dashboard.html', {'quotation': page_object})
 
 
@@ -808,10 +878,12 @@ def edit_quotation(request, id):
     product_list = QuotationProduct.objects.filter(quotation__id=id)
 
     if request.method == 'POST':
+        print(request.POST)
         status = request.POST.get('status')
+        terms_and_conditions = request.POST.get('terms_and_conditions')
         product = request.POST.getlist('product_name')
-        print('Harsh---', product)
-        cost = request.POST.getlist('product_cost')
+        
+        cost = request.POST.getlist('price')
         total_amount = request.POST.get('total_amount')
         quantity = request.POST.getlist('quantity')
 
@@ -819,27 +891,16 @@ def edit_quotation(request, id):
             print('check--', product[i])
             quotationProduct = QuotationProduct.objects.get(id= product[i])
             quotationProduct.quantity = quantity[i]
-            quotationProduct.cost_of_product = cost[i]
+            quotationProduct.price = cost[i]
             quotationProduct.save()
         record = Quotation.objects.get(id=id)
         record.status = status
+        record.terms_and_condition = terms_and_conditions
         record.total_amount = total_amount
         record.save()
 
-        return redirect('/view-quotation/'+str(quotation.id))
+        return redirect('quotation-dashboard')
 
-
-
-    # num = 0
-    # for obj in product_list:
-    #     print(obj)
-    #     obj.product = product_name[num]
-    #     obj.quantity = quantity[num]
-    #     obj.cost_of_product = cost_of_product[num]
-    #     obj.customer_order_approval = customer_approval[num]
-    #     print(obj.customer_order_approval)
-    #     obj.save()
-    #     num = num+1
 
     return render(request, 'edit_quotation.html', {'quotation': quotation, 'product_list': product_list})
 
@@ -979,7 +1040,7 @@ def manufacturer_login(request):
     try:
         if request.method == 'POST':
             username = request.POST['user_name']
-            password = request.POST['password']
+            password = request.POST['password'] 
 
             user = authenticate(username=username, password=password)
 
@@ -996,14 +1057,14 @@ def manufacturer_login(request):
         return render(request, 'manufacturer_login.html')
     except:
         return HttpResponse('Something Went Wrong. Try Again After Some Time.')
-
-
+    
 @login_required(login_url='manufacturer-login')
-def manufacturer_dashboard(request):
-    try:
+def manufacturer_dash(request):
         user = request.user
+        print("useer------",user)
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(manufacturing_unit__manufacturer__user=user).order_by('-id')
+        print(PurchaseOrder.objects.all())
+        sales_order = PurchaseOrder.objects.filter(manufacturing_unit__manufacturer__user = user).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
         page_number = request.GET.get('page')
@@ -1012,10 +1073,107 @@ def manufacturer_dashboard(request):
         # mf_unit = SalesOrder.objects.all()
         # order = ManufacturingUnit.objects.all()
 
-        return render(request, 'manufacturer_dashboard.html', {'order': page_object})
+        return render(request, 'manufacturer_dash.html',{'order': page_object})
 
-    except:
-        return HttpResponse('Something Went Wrong. Try Again After Some Time.')
+def manufacturer_purchase_order_update(request, id):
+    user = request.user
+    display_manufacturer_unit = ManufacturingUnit.objects.filter(user=user)
+    purchase_order_update = PurchaseOrder.objects.get(id=id)
+    product_list = PurchaseOrderProductDetail.objects.filter(purchase_order__id=id)
+    print(sales_order_update)
+    if request.method == 'POST':
+        print(request.POST)
+        
+        payment_term = request.POST.get('paymentterm')
+        delivery_method = request.POST['delivery_method']
+        product_name = request.POST.getlist('product_name')
+
+        print(len(product_name))
+        product_length = request.POST.getlist('product_length')
+        weight_calculation = request.POST.getlist('weight_calculation')
+        bundle_number = request.POST.getlist('bundle_number')
+        cost_of_product = request.POST.getlist('product_cost')
+        gst = request.POST.getlist('gst')
+        total_cost = request.POST.getlist('total_cost')
+        manufacturer_approval = request.POST.getlist('manufacturer_approval')
+        order_comment = request.POST.getlist('order_comment')
+        quantity = request.POST.getlist('quantity')
+        auto_logistic = request.POST.getlist('auto_logistic')
+        order_status = request.POST['status']
+        terms_and_conditions = request.POST['terms_and_conditions']
+        # total_amount = request.POST['total_amount']
+        # For uplaod Files
+        fs = FileSystemStorage()
+        if 'purchase_order_file' in request.FILES:
+            purchase_order_file = request.FILES['purchase_order_file']
+            purchase_order_file = fs.save(purchase_order_file.name, purchase_order_file)
+            purchase_order_update.purchase_order_file = purchase_order_file
+            purchase_order_update.save()
+
+        if 'update_delivery_challan' in request.FILES:
+            delivery_challan = request.FILES['update_delivery_challan']
+            delivery_challan = fs.save(delivery_challan.name, delivery_challan)
+            purchase_order_update.delivery_challan = delivery_challan
+            purchase_order_update.save()
+
+        if 'packing_list' in request.FILES:
+            packing_list = request.FILES['packing_list']
+            packing_list = fs.save(packing_list.name, packing_list)
+            purchase_order_update.packing_list = packing_list
+            purchase_order_update.save()
+
+        if 'ev_list' in request.FILES:
+            ev_list = request.FILES['ev_list']
+            ev_list = fs.save(ev_list.name, ev_list)
+            purchase_order_update.ev_list = ev_list
+            purchase_order_update.save()
+
+
+        purchase_order_update.payment_term = payment_term
+        purchase_order_update.delivery_method = delivery_method
+   
+        purchase_order_update.terms_and_conditions = terms_and_conditions
+        purchase_order_update.order_status = order_status
+
+        purchase_order_update.save()
+        print(product_name)
+
+        num = 0
+        for obj in product_list:
+            print('check')
+            print(obj)
+            obj.product_name = product_name[num]
+            print(product_name[num])
+            obj.weight_of_product = weight_calculation[num]
+            obj.quantity = quantity[num]
+            obj.auto_logistic_fillment = auto_logistic[num]
+            obj.bundle_number = bundle_number[num]
+            obj.cost_of_product = cost_of_product[num]
+            obj.gst = gst[num]
+            obj.total_cost = total_cost[num]
+            obj.vendor_order_approval = manufacturer_approval[num]
+            obj.order_comment = order_comment[num]
+            # print(obj.customer_order_approval)
+            obj.save()
+            num = num + 1
+            print(f" {order_comment} product name")
+        return redirect('/manufacturer-dashboard/')
+
+    return render(request, 'manufacturer_update_purchase_order.html', {'display_manufacturer_unit': display_manufacturer_unit,
+                                                          'purchase_order_update': purchase_order_update,
+                                                          'product_list': product_list})
+
+
+
+def view_manufacturer_purchase_order(request,id):
+    
+    purchase_order_update = PurchaseOrder.objects.get(id=id)
+    product_list = PurchaseOrderProductDetail.objects.filter(purchase_order__id=id)
+    return render(request, 'view_manufacturer_purchase_order.html',
+                      {'purchase_order_update': purchase_order_update, 'product_list': product_list})
+
+
+
 
 
 @login_required(login_url='manufacturer-login')
@@ -1491,6 +1649,14 @@ def load_purchase_order_product(request):
     product = TempInventory.objects.filter(manufacturing_unit__company_name=vendor_unit, user = request.user)
     return render(request, 'load_purchase_order_product.html', {'product': product})
 
+@login_required(login_url='manufacturer-login')
+def purchase_order_dash(request):
+    user = request.user
+    purchase_order = PurchaseOrder.objects.filter(user=user)
+    return render(request,'purchase_order_dash.html',{'purchase_order': purchase_order})
+
+
+
 
 @login_required(login_url='manufacturer-login')
 def update_purchase_order(request, id):
@@ -1521,6 +1687,7 @@ def update_purchase_order(request, id):
         customer_approval = request.POST.getlist('customer_approval')
         quantity = request.POST.getlist('quantity')
         auto_logistic = request.POST.getlist('auto_logistic')
+        order_comment = request.POST.getlist('order_comment')
         order_status = request.POST['status']
         terms_and_conditions = request.POST['terms_and_conditions']
         total_amount = request.POST['total_amount']
@@ -1578,6 +1745,7 @@ def update_purchase_order(request, id):
             obj.gst = gst[num]
             obj.total_cost = total_cost[num]
             obj.customer_order_approval = customer_approval[num]
+            obj.order_comment = order_comment[num]
             # print(obj.customer_order_approval)
             obj.save()
             num = num + 1
@@ -1592,26 +1760,35 @@ def update_purchase_order(request, id):
 # except:
 #     return HttpResponse('Something Went Wrong. Try Again After Some Time.')
 
-@login_required(login_url='manufacturer-login')
-def view_purchase_order(request, id):
-    try:
+# @login_required(login_url='manufacturer-login')
+# def view_purchase_order(request, id):
+#     try:
+#         purchase_order_update = PurchaseOrder.objects.get(id=id)
+#         product_list = PurchaseOrderProductDetail.objects.filter(purchase_order__id=id)
+#         return render(request, 'view_purchase_order.html',
+#                       {'purchase_order_update': purchase_order_update, 'product_list': product_list})
+
+#     except Exception as e:
+#         exc_type, exc_obj, exc_tb = sys.exc_info()
+#         print(exc_tb.tb_lineno, e)
+
+def vie_purchase_order(request, id):
         purchase_order_update = PurchaseOrder.objects.get(id=id)
         product_list = PurchaseOrderProductDetail.objects.filter(purchase_order__id=id)
         return render(request, 'view_purchase_order.html',
                       {'purchase_order_update': purchase_order_update, 'product_list': product_list})
 
-    except:
-        return HttpResponse('Something Went Wrong. Try Again After Some Time.')
 
 
-@login_required(login_url='manufacturer-login')
-def purchase_order_dashboard(request):
-    try:
-        user = request.user
-        purchase_order = PurchaseOrder.objects.filter(user=user)
-        return render(request, 'purchase_order_dashboard.html', {'purchase_order': purchase_order})
-    except:
-        return HttpResponse('Something Went Wrong. Try Again After Some Time.')
+# @login_required(login_url='manufacturer-login')
+# def purchase_order_dashboard(request):
+#     try:
+#         user = request.user
+#         purchase_order = PurchaseOrder.objects.filter(user=user)
+#         return render(request, 'purchase_order_dashboard.html', {'purchase_order': purchase_order})
+#     except Exception as e:
+#         exc_type, exc_obj, exc_tb = sys.exc_info()
+#         print(exc_tb.tb_lineno, e)
 
 
 @login_required(login_url='manufacturer-login')
@@ -1678,7 +1855,7 @@ def order_status_accepted(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Accepted')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1694,7 +1871,7 @@ def order_status_in_production(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='In Production')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1710,7 +1887,7 @@ def order_status_packed(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Packed')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1726,7 +1903,7 @@ def order_status_shipped(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Shipped')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1742,7 +1919,7 @@ def order_status_delivered(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Delivered')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1758,7 +1935,7 @@ def order_status_cancel(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Cancel')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)
@@ -1774,7 +1951,7 @@ def order_status_accepted_with_change(request):
     try:
         user = request.user
         # sales_order = SalesOrder.objects.all()
-        sales_order = SalesOrder.objects.filter(
+        sales_order = PurchaseOrder.objects.filter(
             Q(manufacturing_unit__manufacturer__user=user) & Q(order_status='Accepted with change')).order_by('-id')
         # dividing data into pages
         paginator = Paginator(sales_order, 10, orphans=3)

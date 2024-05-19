@@ -1,0 +1,90 @@
+{% extends 'customer_navbar.html' %}
+{% load static %}
+{% block title %}Search Result{% endblock title %}
+{% block content %}
+<div class="container">
+    {% if search_result|length < 1 %}
+    <div class="row">
+        <div class="col-7">
+            
+                <h3 class="fw-bold my-3">Search Result For: {{manufacturing_unit_search_query}}</h3>
+          
+        </div>
+        <div class="col-5">
+          <div class="container">
+
+            <form class="d-flex justify-content-end" method="get" action="{% url 'search-manufacturering-unit' %}">  
+              <div class="form-group">
+                <input class="form-control me-2 " type="search" placeholder="Search Manufacturer" aria-label="Search" name="search">
+              </div>
+              <button class="btn fw-bold mx-2"  style="background-color:#ed8b00;"  type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg></button>
+            </form>
+          </div>
+        </div>
+    
+    </div>
+    <h2 class="fw-bold text-center">Manufacturing Unit Not Found. </h2>
+    {% else %} 
+     <div class="row">
+        <div class="col-4">
+            <h3 class="fw-bold my-3">Search Result For: {{manufacturing_unit_search_query}}</h3>
+        </div>
+
+        <div class="col-8">
+          <div class="container">
+            <form class="d-flex justify-content-end" method="get" action="{% url 'search-manufacturering-unit' %}">  
+              <div class="form-group">
+                <input class="form-control me-2 " type="search" placeholder="Search Manufacturer" aria-label="Search" name="search">
+              </div>
+              <button class="btn fw-bold mx-2"  style="background-color:#ed8b00;"  type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+              </svg></button>
+            </form>
+          </div>
+        </div>
+         
+         
+    </div>
+    <table class="table align-middle table-bordered">
+        <thead>
+          <tr style="text-transform: uppercase;  background-color:#ed8b00;">
+            <th>Unit Name</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Website</th>
+            {% comment %} <th class="w-25">Delivery Method</th> {% endcomment %}
+            <th>Phone Number</th>
+            <th>Action</th>
+      
+          </tr>
+        </thead>
+        <tbody>
+          {% for manufacturing_unit_data in search_result %}
+          <tr>
+            <th scope="row">{{manufacturing_unit_data.company_name|upper}}</th>
+            {% comment %} <td>{{forloop.counter}}</td> {% endcomment %}
+            <td>{{manufacturing_unit_data.salutation}}
+              {{manufacturing_unit_data.first_name|upper}}
+              {{manufacturing_unit_data.last_name|upper}}</td>
+            {% comment %} <td>{{manufacturing_unit_data.display_name|capfirst}}</td> {% endcomment %}
+            <td>{{manufacturing_unit_data.email}}</td>
+            <td>{{manufacturing_unit_data.website}}</td>
+            <td>{{manufacturing_unit_data.phone_number|upper}}</td>
+            {% comment %} <td>{{manufacturing_unit_data.pan_number}}</td>
+            <td>{{manufacturing_unit_data.currency}}</td> {% endcomment %}
+      
+            {% comment %} <td>{{order.delivery_method|capfirst}}</td> {% endcomment %}
+      
+      
+            <td><a href="{% url 'update-manufacturing-unit' manufacturing_unit_data.id %}" class="btn fw-bold btn-sm"
+                style="background-color:#ed8b00;">&#128393;</a></td>
+          </tr>
+          {% endfor %}
+      
+        </tbody>
+      </table>
+      {% endif %}
+      </div>
+{% endblock content %}

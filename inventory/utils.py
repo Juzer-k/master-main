@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 import csv
 from inventory.models import Inventory
 from core_app.models import Token
-from barcode import EAN13
-import barcode
+# from barcode import EAN13
+# import barcode
 
 def send_stock_update_email():
     try:
@@ -64,9 +64,9 @@ def send_password_reset_email(*args):
                 pass
             else:
                 message = MIMEMultipart()
-                message['From'] = 'Techmaadhyam'
+                message['From'] = 'industryHub'
                 message['To'] =  users.email
-                message['Subject'] = 'Techmaadhyam: Reset Password'
+                message['Subject'] = 'industryHub: Reset Password'
                 html = f"""
                                     <html>
                                         <body>
@@ -95,8 +95,8 @@ def send_password_reset_email(*args):
 #     my_code.save(path)
 #     return 'barcode/' + number + '.png'
 
-def generate_barcode(number):
-    path = 'media/barcode/' + number + '.png'
-    my_code = barcode.get_barcode('ean13')
-    my_code.save(path)
-    return 'barcode/' + number + '.png'
+# def generate_barcode(number):
+#     path = 'media/barcode/' + number + '.png'
+#     my_code = barcode.get_barcode('ean13')
+#     my_code.save(path)
+#     return 'barcode/' + number + '.png'

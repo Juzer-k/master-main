@@ -11,9 +11,20 @@
         <div class="col-6">
             <h3 class="my-3 fw-bold">View purchase Order Detail</h3>
             <div class="mb-3">
-                <label class="form-label">Customer* :</label>
-                <input type="text" class="form-control" value="{{purchase_order_update.vendor_unit|capfirst}}"
+                <label class="form-label">Unit Type* :</label>
+                <input type="text" class="form-control" value="{{purchase_order_update.unit_type}}"
                     readonly>
+            </div>
+
+            <div class="mb-3">
+                    
+                <label class="form-label">Manufacturing / Distributor Unit Name* :</label>
+                <select class="form-control" onchange="" name = "manufacturer_unit" readonly>
+
+                    <option value="{{purchase_order_update.manufacturing_unit}}" selected>
+                        {{purchase_order_update.manufacturing_unit}}</option>
+
+                </select>
             </div>
 
 
@@ -96,7 +107,7 @@
     <div class="row">
         <table class="table align-middle table-bordered">
             <thead>
-                <tr class="bg-info">
+                <tr  style="background-color:#ed8b00;">
                     {% comment %} <th scope="col">Sno.</th> {% endcomment %}
                     <th scope="col">Product Name & Product Length</th>
                     <th scope="col">Weight Calculation</th>
@@ -106,7 +117,7 @@
                     <th scope="col">Auto Logistic Fitment</th>
                     <th scope="col">Comment</th>
                     <th scope="col">Customer Approval</th>
-                    <th scope="col">Vendor Approval</th>
+                    <th scope="col">Manufacturer Approval</th>
                 </tr>
             </thead>
             <tbody>
@@ -142,7 +153,7 @@
                     </td>
                     <td>
                     <select class="form-control" name="customer_approval" readonly>
-                        <option selected>{{i.manufacturer_order_approval}}</option>
+                        <option selected>{{i.customer_order_approval}}</option>
                     </select>
                 </td>
                 <td>
@@ -178,11 +189,10 @@
             <div class="row">
                 <div class="col-3">
                     <div class="form-group">
-                        {% comment %} <label class="form-label">Upload Sales Order Invoice</label>
-                        <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="purchase_order_file"> {% endcomment %}
-                        Click here to download Sales Order Invoice<br>
+                        
                         {% if purchase_order_update.purchase_order_file %}
-                        <a href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
+                        Click here to download Purchase Order Invoice<br>
+                        <a class="text-dark fw-bold" title="Purchase Order Invoice" href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
                         {% else %}
                          No Document Uploaded
                         {% endif %}
@@ -190,33 +200,30 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    {% comment %} <label class="form-label">Upload Delivery Challan</label>
-                    <input type="file" class="form-control-file" name="update_delivery_challan" value="{{purchase_order_update.delivery_challan}}"> {% endcomment %}
-                    Click here to download Delivery Challan <br>
+                    
                     {% if purchase_order_update.delivery_challan%}
-                    <a href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
+                    Click here to download Delivery Challan <br>
+                    <a class="text-dark fw-bold" title="Delivery Challan" href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %}
                     <br>
                 </div>
                 <div class="col-3">
-                    {% comment %} <label class="form-label">Upload Packing List</label>
-                    <input type="file" class="form-control-file" name="packing_list"> {% endcomment %}
-                    Click here to download Packing List <br>
+                
                     {% if purchase_order_update.packing_list %}
-                    <a href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
+                    Click here to download Packing List <br>
+                    <a class="text-dark fw-bold" title="Packing List" href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %}
                     <br>
                 </div>
                 <div class="col-3">
-                    {% comment %} <label class="form-label">Uplaod EV List</label>
-                    <input type="file" class="form-control-file" name="ev_list"> {% endcomment %}
-                    Click here to download EV list <br>
+                   
                     {% if purchase_order_update.ev_list %}
-                    <a href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
+                    Click here to download EV List <br>
+                    <a class="text-dark fw-bold" title="EV List" href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
                     {% else %}
                     No Document Uploaded
                     {% endif %}
@@ -225,8 +232,8 @@
             </div>
 
         </div>
-        <div class="container">
-            <a href="{% url 'purchase-order-dashboard'%}" class="btn btn-lg fw-bold"
+        <div class="container"><br><br>
+            <a href="{% url 'purchase-order-dash'%}" class="btn btn-lg fw-bold"
                 style="background-color:#ed8b00;">Back To
                 DashBoard</a>
         </div>

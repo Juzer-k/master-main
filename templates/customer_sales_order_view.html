@@ -11,7 +11,7 @@
         <div class="col-6">
             <h3 class="my-3 fw-bold">View Sales Order Detail</h3>
             <div class="mb-3">
-                <label class="form-label">Customer* :</label>
+                <label class="form-label">Unit Name* :</label>
                 <input type="text" class="form-control" value="{{sales_order_update.manufacturing_unit|capfirst}}"
                     readonly>
             </div>
@@ -81,7 +81,7 @@
     <div class="row">
         <table class="table align-middle table-bordered">
             <thead>
-                <tr class="bg-info">
+                <tr style="background-color:#ed8b00;">
                     {% comment %} <th scope="col">Sno.</th> {% endcomment %}
                     <th scope="col">Product Name & Product Length</th>
                     <th scope="col">Weight Calculation</th>
@@ -176,8 +176,9 @@
                     {% comment %} <label class="form-label">Upload Sales Order Invoice</label> {% endcomment %}
                     {% comment %} <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="update_sales_order_file"> {% endcomment %}
                     Click here to download Sales Order Invoice<br>
+                <br>
                     {% if sales_order_update.sales_order_file %}
-                    <a href="{{sales_order_update.sales_order_file.url}}" target="_blank">{{sales_order_update.sales_order_file}}</a>
+                    <a href="{{sales_order_update.sales_order_file.url}}" class="text-dark fw-bold" title="Download Sales Order Invoice" target="_blank">{{sales_order_update.sales_order_file}}</a>
                     {% else %}
                     <br>
                      No Document Uploaded
@@ -188,9 +189,9 @@
             <div class="col-3">
                 {% comment %} <label class="form-label">Upload Delivery Challan</label> {% endcomment %}
                 {% comment %} <input type="file" class="form-control-file" name="update_delivery_challan" value="{{sales_order_update.delivery_challan}}"> {% endcomment %}
-                Click here to download Delivery Challan <br>
+                Click here to download Delivery Challan <br><br>
                 {% if sales_order_update.delivery_challan%}
-                <a href="{{sales_order_update.delivery_challan.url}}" target="_blank">{{sales_order_update.delivery_challan}}</a>
+                <a href="{{sales_order_update.delivery_challan.url}}" class="text-dark fw-bold" title="Download Delivery Challan" target="_blank">{{sales_order_update.delivery_challan}}</a>
                 {% else %}
                 <br>
                 No Document Uploaded
@@ -200,9 +201,9 @@
             <div class="col-3">
                 {% comment %} <label class="form-label">Upload Packing List</label> {% endcomment %}
                 {% comment %} <input type="file" class="form-control-file" name="packing_list"> {% endcomment %}
-                Click here to download Packing List<br>
+                Click here to download Packing List<br><br>
                 {% if sales_order_update.packing_list %}
-                <a href="{{sales_order_update.packing_list.url}}" target="_blank">{{sales_order_update.packing_list}}</a>
+                <a href="{{sales_order_update.packing_list.url}}" class="text-dark fw-bold" title="Download Packing List" target="_blank">{{sales_order_update.packing_list}}</a>
                 {% else %}
                 <br>
                 No Document Uploaded
@@ -212,9 +213,9 @@
             <div class="col-3">
                 {% comment %} <label class="form-label">Uplaod EV List</label> {% endcomment %}
                 {% comment %} <input type="file" class="form-control-file" name="ev_list"> {% endcomment %}
-                Click here to download EV List <br>
+                Click here to download EV List <br><br>
                 {% if sales_order_update.ev_list %}
-                <a href="{{sales_order_update.ev_list.url}}" target="_blank">{{sales_order_update.ev_list}}</a>
+                <a href="{{sales_order_update.ev_list.url}}" class="text-dark fw-bold" title="Download EV List" target="_blank">{{sales_order_update.ev_list}}</a>
                 {% else %}
                 <br>
                 No Document Uploaded
@@ -226,7 +227,8 @@
      
 
         <div class="container">
-            <a href="{% url 'customer-dashboard'%}" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Back To
+            <br>
+            <a href="{% url 'view-sales-order-dashboard'%}" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Back To
                 DashBoard</a>
                 {% comment %} <a href="{% url 'pdf-converter' sales_order_update.id %}" target="_blank"  class="btn btn-lg fw-bold my-4" style="background-color:#ed8b00;">Download Sales Order</a> {% endcomment %}
         </div>

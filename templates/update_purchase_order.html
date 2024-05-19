@@ -23,11 +23,6 @@
                         <option value="{{purchase_order_update.manufacturing_unit}}" selected>
                             {{purchase_order_update.manufacturing_unit}}</option>
 
-                        {% comment %} <option>Select Manufacturing Unit</option>
-                        {% for i in display_manufacturer_unit %}
-
-                        <option value="{{i.company_name}}">{{i.company_name}}</option>
-                        {% endfor %} {% endcomment %}
                     </select>
                 </div>
 
@@ -48,7 +43,7 @@
                     <label class="form-label">Expected Shipment Date* :</label>
                     <input type="text" class="form-control" name="expected_shipment_date"
                         value="{{purchase_order_update.exp_shipment_date}}" readonly>
-                </div>
+                </div> 
 
                 <div class="mb-3">
                     <label class="form-label">Payment Term :</label>
@@ -76,17 +71,17 @@
 
                 <div class="mb-3">
                     <label class="form-label">Order Status :</label>
-                    <select class="form-control" name="status">
+                    <select class="form-control" name="status" readonly>
                         <option value="{{purchase_order_update.order_status}}" selected>{{purchase_order_update.order_status}}
                         </option>
-                        <option>-------------</option>
+                        {% comment %} <option>-------------</option>
                         <option>Accepted</option>
                         <option>Accepted with change</option>
                         <option>In Production</option>
                         <option>Packed</option>
                         <option>Shipped</option>
                         <option>Delivered</option>
-                        <option>Cancel</option>
+                        <option>Cancel</option> {% endcomment %}
                     </select>
                 </div>
 
@@ -116,7 +111,7 @@
             <div class="table-responsive">
                 <table class="table align-middle table-bordered">
                     <thead>
-                        <tr class="bg-info">
+                        <tr style="background-color:#ed8b00;" >
                             {% comment %} <th scope="col">Sno.</th> {% endcomment %}
                             <th scope="col" style="width: 200px; min-width: 200px;">Product Name & Product Length</th>
                             {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
@@ -129,7 +124,7 @@
                             <th scope="col" style="width: 200px; min-width: 200px;">Auto Logistic Fitment</th>
                             <th scope="col" style="width: 200px; min-width: 200px;">Comment</th>
                             <th scope="col" style="width: 200px; min-width: 200px;">Customer Approval</th>
-                            <th scope="col" style="width: 200px; min-width: 200px;">Vendor Approval</th>
+                            <th scope="col" style="width: 200px; min-width: 200px;">Manufacturer Approval</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -183,11 +178,11 @@
                             
                             <td>
                                 <textarea class="form-control" name="order_comment" rows="2"
-                                    readonly>{{i.order_comment}}</textarea>
+                                    >{{i.order_comment}}</textarea>
                             </td>
                             <td>
                             <select class="form-control" name="customer_approval">
-                                <option selected>{{i.manufacturer_order_approval}}</option>
+                                <option selected>{{i.customer_order_approval}}</option>
                                 <option>-----------</option>
                                 <option>Order Placed</option>
                                 <option>Accepted</option>
@@ -228,11 +223,11 @@
                 <div class="row">
                     <div class="col-3">
                         <div class="form-group">
-                            <label class="form-label">Upload Sales Order Invoice</label>
-                            <input type="file" class="form-control-file" value="{{sales_order_update.sales_order_file}}" name="purchase_order_file">
+                            <label class="form-label">Upload Purchase Order Invoice</label>
+                            <input type="file" class="form-control-file" value="{{purchase_order_update.purchase_order_file}}" name="purchase_order_file">
                             {% if purchase_order_update.purchase_order_file %}
-                            Click here to download Sales Order Invoice<br>
-                            <a href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
+                            Click here to download Purchase Order Invoice<br>
+                            <a class="text-dark fw-bold" title="Download Purchase Order Invoice" href="{{purchase_order_update.purchase_order_file.url}}">{{purchase_order_update.purchase_order_file}}</a>
                             {% else %}
                              No Document Uploaded
                             {% endif %}
@@ -244,7 +239,7 @@
                         <input type="file" class="form-control-file" name="update_delivery_challan" value="{{purchase_order_update.delivery_challan}}">
                         {% if purchase_order_update.delivery_challan%}
                         Click here to download Delivery Challan <br>
-                        <a href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
+                        <a class="text-dark fw-bold" title = "Download Delivery Challan" href="{{purchase_order_update.delivery_challan.url}}">{{purchase_order_update.delivery_challan}}</a>
                         {% else %}
                         No Document Uploaded
                         {% endif %}
@@ -255,7 +250,7 @@
                         <input type="file" class="form-control-file" name="packing_list">
                         {% if purchase_order_update.packing_list %}
                         Click here to download Packing List <br>
-                        <a href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
+                        <a class="text-dark fw-bold" title="Download Packing List" href="{{purchase_order_update.packing_list.url}}">{{purchase_order_update.packing_list}}</a>
                         {% else %}
                         No Document Uploaded
                         {% endif %}
@@ -266,7 +261,7 @@
                         <input type="file" class="form-control-file" name="ev_list">
                         {% if purchase_order_update.ev_list %}
                         Click here to download EV List <br>
-                        <a href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
+                        <a class="text-dark fw-bold" title="Download EV List" href="{{purchase_order_update.ev_list.url}}">{{purchase_order_update.ev_list}}</a>
                         {% else %}
                         No Document Uploaded
                         {% endif %}
@@ -276,8 +271,9 @@
 
             </div>
             <div class="container">
+                <br>
                 <button type="sumbit" class="btn float-end btn-lg fw-bold"
-                    style="background-color:#ed8b00;">Save</button>
+                    style="background-color:#ed8b00;">Update Purchase Order</button>
             </div>
     </form>
 </div>

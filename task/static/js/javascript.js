@@ -368,7 +368,7 @@ $(document).ready(function() {
       console.log('hello')
       
       var url = $("#Form").attr("product-data-url");
-      var mf_unit = $(this).val();
+      var mf_unit = $(this).val();  
       if(mf_unit != null){
       $('#item_name_div').show();
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'task',
     'inventory',
     'core_app',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
+CORS_ALLOW_ALL_ORIGINS=True
 
 ROOT_URLCONF = 'techmaadhyam.urls'
 
@@ -160,3 +165,8 @@ from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+GRAPH_MODELS ={
+    'all_applications': True,
+    'graph_models': True,
+     }

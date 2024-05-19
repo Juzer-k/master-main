@@ -19,12 +19,12 @@
         {% csrf_token %}
         <div class="row">
             <div class="col-6">
-                <div class="py-3">
+                {% comment %} <div class="py-3">
                     <label for="buy"
                         class="label-blue">Item ID</label>
                         <input type="text" name="item_id_sku" id="item_id_sku"
                                class="form-control add_single_field" value="{{item_sku}}" readonly>
-                </div>
+                </div> {% endcomment %}
                 <div class="py-3">
                     <label for="code" class="label-blue">Warehouse</label>
                     <select class="form-select add_single_field selectCategoryName" id="check_ware_house" name="category_load" required>
@@ -152,8 +152,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a href="{% url 'inventory'%}"><button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button></a>
-            <input type="submit" id="btn-submit"value="Save"class="btn btn-success">
+            <a href="{% url 'inventory'%}"><button type="button" class="btn btn-danger fw-bold text-dark" data-bs-dismiss="modal">Cancel</button></a>
+            <input type="submit" id="btn-submit"value="Add Product"class="btn fw-bold" style="background-color:#ed8b00;">
             {% comment %} <button type="button" class="btn btn-success">Save</button> {% endcomment %}
             
         </div>

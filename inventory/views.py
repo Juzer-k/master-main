@@ -255,9 +255,10 @@ def add_inventory_product(request):
 
 def search_inventory_product(request):
     search_product_query = request.GET.get('query')
+    print(search_product_query)
     product_search_match = Inventory.objects.filter(Q(item_name__icontains = search_product_query) | Q(item_category__name__icontains = search_product_query) | Q(sku__icontains = search_product_query) | Q(warehouse__name__icontains = search_product_query))
     return render(request, 'search_inventory_product.html',{'product_search_match':product_search_match, 'search_product_query':search_product_query})
-
+ 
 # def genrate_barcodes(self):
 #     barcode_format = barcode.get_barcode_class('code128')
 #     # my_barcode = barcode_format(self.id, writer=ImageWriter())

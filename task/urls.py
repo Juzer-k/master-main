@@ -10,10 +10,10 @@ from .views import *
 
 
 urlpatterns = [
-    #path('', views.home),
+    path('', views.home),
     # customer urls
     path('customer-registration/', views.customer_registration, name='customer-registration'),
-    path('', views.customer_login, name='customer-login'),
+    path('customer-login/', views.customer_login, name='customer-login'),
     path('sales-order/', views.sales_order, name='sales-order'),
     path('view-sales-order-dashboard/', views.view_sales_order_dashboard, name='view-sales-order-dashboard'),
     path('sales-order-update/<int:id>', views.sales_order_update, name='sales-order-update'),
@@ -24,7 +24,7 @@ urlpatterns = [
     path('create-sale-order/', views.create_sale_order, name='create-sale-order'),
     path('customer-dashboard/', views.customer_dashboard, name='customer-dashboard'),
     path('manufacturing-unit-dashboard/', views.manufacturing_unit_dashboard, name='manufacturing-unit-dashboard'),
-    path('search-result/', views.customer_search, name='customer-search'),
+   
     path('load-product/', views.load_product, name='load-product'),
     path('load-product-cost/', views.load_product_cost, name='load-product-cost'),
     path('load-purchase-product-cost/', views.load_purchase_product_cost, name='load-purchase-product-cost'),
@@ -45,9 +45,11 @@ urlpatterns = [
     path('manufacturer-registration/', views.manufacturer_registration, name='manufacturer-registration'),
     path('manufacturer-registration-redirect/', views.manufacturer_registration_redirect, name='manufacturer-registration-redirect'),
     path('manufacturer-sales-order-update/<int:id>', views.manufacturer_sales_order_update, name='manufacturer-sales-order-update'),
+    path('manufacturer-purchase-order-update/<int:id>', views.manufacturer_purchase_order_update, name='manufacturer-purchase-order-update'),
     path('manufacturer-login/', views.manufacturer_login, name='manufacturer-login'),
-    path('manufacturer-dashboard/', views.manufacturer_dashboard, name='manufacturer-dashboard'),
+    # path('manufacturer-dashboard/', views.manufacturer_dashboard, name='manufacturer-dashboard'),
     path('manufacturer-packing/', views.manufacturer_packing, name='manufacturer-packing'),
+    path('manufacturer-dashboard/', views.manufacturer_dash, name='manufacturer-dash'),
     path('manufacturer-detail/', views.manufacturer_detail, name='manufacturer-detail'),
     path('manufacturer-sales-order-view/<int:id>', views.manufacturer_sales_order_view, name='manufacturer-sales-order-view'),
     path('manufacturer-search-result/', views.manufacturer_search, name='manufacturer-search'),
@@ -58,10 +60,13 @@ urlpatterns = [
     path('vendor-unit-dashboard/', views.vendor_unit_dashboard, name='vendor-unit-dashboard'),
     path('update-vendor-unit/<int:id>', views.update_vendor_unit, name='update-vendor-unit'),
     path('purchase-order/', views.add_purchase_order, name='add-purchase-order'),
+    path('purchase-order-dashboard/', views.purchase_order_dash, name='purchase-order-dash'),
     path('create-purchase-order/', views.create_purchase_order, name='create-purchase-order'),
-    path('purchase-order-dashboard/', views.purchase_order_dashboard, name='purchase-order-dashboard'),
+    # path('purchase-order-dashboard/', views.purchase_order_dashboard, name='purchase-order-dashboard'),
     path('update-purchase-order/<int:id>', views.update_purchase_order, name='update-purchase-order'),
-    path('view-purchase-order/<int:id>', views.view_purchase_order, name='view-purchase-order'),
+    path('view-purchase-order/<int:id>', views.vie_purchase_order, name='vie-purchase-order'),
+    path('view-manufacturer-purchase-order/<int:id>', views.view_manufacturer_purchase_order, name='view-manufacturer-purchase-order'),
+    # path('view-purchase-order/<int:id>', views.view_purchase_order, name='view-purchase-order'),
     path('load-purchase-order-product/', views.load_purchase_order_product, name='load-purchase-order-product'),
 
 
@@ -100,9 +105,13 @@ urlpatterns = [
     path('vendor-order-status-shipped/', views.vendor_order_status_shipped, name='vendor-order-status-shipped'),
     path('vendor-order-status-delivered/', views.vendor_order_status_delivered, name='vendor-order-status-delivered'),
     path('vendor-order-status-cancel/', views.vendor_order_status_cancel, name='vendor-order-status-cancel'),
+
+    path('create-quotation/', views.create_quotation, name='create-quotation'),
     path('quotation/', views.quotation, name='quotation'),
     path('quotation-dashboard/', views.quotation_dashboard, name='quotation-dashboard'),
+    path('manufacturer-quotation-dashboard/', views.manufacturer_quotation_dashboard, name='manufacturer-quotation-dashboard'),
     path('edit-quotation/<int:id>', views.edit_quotation, name='edit-quotation'),
+    path('edit-manufacturer-quotation/<int:id>', views.edit_manufacturer_quotation, name='edit-manufacturer-quotation'),
     path('view-quotation/<int:id>', views.view_quotation, name='view-quotation'),
 
     path('download-pdf/<int:id>', views.pdf_converter, name='pdf-converter'),
@@ -114,7 +123,12 @@ urlpatterns = [
     path('download-csv/', download_csv, name='download-csv'),
 
 
-
+    # search Querys
+    path('search-result-for-sales-order/', views.sales_order_search, name='sales-order-search'),
+    path('search-result-for-quotation/', views.quotation_search, name='quotation-search'),
+    path('search-result-for-manufacturing-unit/', views.search_manufacturering_unit, name='search-manufacturering-unit'),
+    path('search-result-for-purchase-order/', views.search_purchase_order, name='search-purchase-order'),
+    path('search-result-for-manufacturer-quotation/', views.manufacturer_quotation_search, name='manufacturer-quotation-search'),
 
 
 ]+ static (settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

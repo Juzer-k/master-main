@@ -4,13 +4,13 @@
 {% block body %}
 <div class="container-fluid">
   <div class="row">
-    <div class="col-4" style="background-color:black;">
-      <br><br><br>
-      <img src="{%static 'images/tm_logo.png'%}" class="mx-auto d-block mt-5" alt="">
+    <div class="col-5" style="background-color:black;">
+      <br><br><br><br><br><br><br><br>
+      <img src="{%static 'images/industryhub logo 2.jpg'%}" class="mx-auto d-block mt-5" alt="">
       <br><br><br><br><br>
-      <img src="{%static 'images/register.png'%}" class="mx-auto d-block mt-5" alt="">
+      {% comment %} <img src="{%static 'images/register.png'%}" class="mx-auto d-block mt-5" alt=""> {% endcomment %}
     </div>
-    <div class="col-8">
+    <div class="col-7">
 
       <form method="post">
         {% csrf_token %}
@@ -18,11 +18,11 @@
         <div class="card mx-auto my-1" style="width: 30rem; border:none;">
           <div class="card-body">
             <div class="container d-flex">
-              <img src="{%static 'images/logo.png'%}" class="mx-auto d-block mt-1" width="20%" alt="">
+              <img src="{%static 'images/industryhub logo.jpg'%}" class="mx-auto d-block mt-1" width="20%" alt="">
               <p class="mt-1 fw-bold fs-4"> AL-Digital</p>
-              <img src="{%static 'images/logo.png'%}" class="mx-auto d-block mt-1" width="20%" alt="">
+              <img src="{%static 'images/industryhub logo.jpg'%}" class="mx-auto d-block mt-1" width="20%" alt="">
             </div>
-            <h3 class="text-center fw-bold">Welcome to Tech Maadhyam! Please fill in your details
+            <h3 class="text-center fw-bold">Welcome to industryHub! Please fill in your details
             </h3>
             <hr>
             <h4 class="card-title text-center fw-bold">Customer Registration</h4>

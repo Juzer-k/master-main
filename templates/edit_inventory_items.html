@@ -6,27 +6,21 @@
 <div>
     <div class="w-100">
            
-        <h3 class="page_header mb-4">Edit Inventory</h3>
+        <h3 class="page_header mb-4">Edit Product</h3>
     <div class="item-master">
         <div class="container-fluid">
             <div class="tab-content">
                 <div class="tab-pane fade show active" >
-                    <div class="d-flex justify-content-between inventory">
+                    {% comment %} <div class="d-flex justify-content-between inventory">
                         <div class="d-flex">
                             <i class="fa fa-archive" aria-hidden="true"></i>
-                            <span class="ps-2">
-                                <h6 class="m-0">inventory</h6>
-                                <p class="m-0">Item master</p>
-                            </span>
+                            
                         </div>
-                    </div>
-                    <div class=" sub-heading shadow mb-4 rounded text-center encrypted_header">
-                        <i class="fa fa-shield" aria-hidden="true"></i>
-                        encrypted action
-                    </div>
+                    </div> {% endcomment %}
+                
                     <div class="items-content">
                         <!-- edit item Header -->
-                        <div class="items-header bg-warning">
+                        <div class="items-header" style="background-color:#ed8b00;">
                             <h4 class="items-title mb-0">Edit item</h4>
                         </div>
                     <form method="POST">
@@ -38,10 +32,10 @@
                                     {% for detail in item_detail %}
                                     <div class="col-md-6">
                                     
-                                        <div class="py-md-3 pt-0 pb-3">
+                                        {% comment %} <div class="py-md-3 pt-0 pb-3">
                                             <label for="item" class="label-blue">Item Id</label>
                                             <input type="text" name="item_sku" value="{{ detail.sku }}" class="form-control add_single_field" >
-                                        </div>
+                                        </div> {% endcomment %}
                                         <div class="py-md-3 pt-0 pb-3">
                                             <label for="ProductService"
                                                 class="label-blue">Product/Service</label>
@@ -57,7 +51,7 @@
                                                 </select>
                                         </div>
                                         <div class="py-md-3 pt-0 pb-3">
-                                            <label for="unit" class="label-blue">Unit Uf
+                                            <label for="unit" class="label-blue">Unit of
                                                 Measurement</label>
                                                 <select class="form-select add_single_field" id="unit" name="unit">
                                                     {% if detail.unit_of_measurement %}
@@ -163,8 +157,8 @@
                            
                         </div>
                         <div class="itmes-footer">
-                            <a href="{% url 'inventory'%}"><button type="button" class="btn btn-danger">Cancel</button></a>
-                            <input type="submit" id="btn-submit" class="btn btn-success mx-2" value="Save">
+                            <a href="{% url 'inventory'%}"><button type="button" class="btn btn-danger fw-bold">Cancel</button></a>
+                            <input type="submit" id="btn-submit" class="btn mx-2 fw-bold" style="background-color:#ed8b00;" value="Update Product">
                         </div>
                     </form>
                     </div>

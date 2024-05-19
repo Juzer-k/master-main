@@ -4,21 +4,40 @@
 {% block content %}
 <div class="conatainer-fluid">
 
+  <div class="row">
+    <div class="col-4">
+      <h3 class="fw-bold my-3">Unit Details</h3>
 
-  <h3 class="fw-bold my-3">Customer Details</h3>
+    </div>
+    <div class="col-8">
+      <div class="container">
+
+        <form class="d-flex justify-content-end" method="get" action="{% url 'search-manufacturering-unit' %}">  
+          <div class="form-group">
+            <input class="form-control me-2 " type="search" placeholder="Search Manufacturer" aria-label="Search" name="search">
+          </div>
+          <button class="btn fw-bold mx-2"  style="background-color:#ed8b00;"  type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg></button>
+        </form> 
+      </div>
+    </div>
+  </div>
+
+
   {% if manufacturing_unit_data|length < 1 %} <div class="container text-center my-4">
-    <h3 class="text-center fw-bold">No Customer Found.</h3>
+    <h3 class="text-center fw-bold">No Unit Found.</h3>
     <a class="btn fw-bold" style="background-color:#ed8b00;" href="{% url 'create-manufacturing-unit' %}">Add New
-      Customer Unit</a>
+       Unit </a>
 </div>
 {% else %}
 <div class="container text-end my-4">
   <a class="btn fw-bold" style="background-color:#ed8b00;" href="{% url 'create-manufacturing-unit' %}">Add New
-     Customer Unit</a>
+      Unit</a>
 </div>
 <table class="table align-middle table-bordered">
   <thead>
-    <tr style="text-transform: uppercase;" class="bg-info">
+    <tr style="text-transform: uppercase;  background-color:#ed8b00;">
       <th>Unit Name</th>
       <th>Full Name</th>
       <th>Email</th>

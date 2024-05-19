@@ -13,21 +13,21 @@
             <div class="col-6">
                 <h3 class="my-3 fw-bold">Sales Order Detail</h3>
                 <div class="mb-3">
-                    <label class="form-label">Type* :</label>
+                    <label class="form-label">Unit Type* :</label>
                     {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
                       <select class="form-control unitType" onchange="" name="distributor" id="" autofocus  required>
-                        <option value="">Select Customer Type</option>
+                        <option value="">Select Unit Type</option>
                         <option value="Distributer">Distributer</option>
                         <option value="Manufacturer">Manufacturer</option>
-                        <option value="Trader">Trader</option>
-                        <option value="Customer">Customer</option>
+                        {% comment %} <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option> {% endcomment %}
                         
                     </select>  
                 </div>
 
 
                 <div class="mb-3">
-                    <label class="form-label">Customer* :</label>
+                    <label class="form-label">Unit* :</label>
                     {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
                    
                     {% comment %} manufacturerUnitName {% endcomment %}
@@ -39,7 +39,7 @@
                         
                         {% endfor %} {% endcomment %}
                     </select>
-                    <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Customer</a>
+                    {% comment %} <a  href="{% url 'create-manufacturing-unit' %}" class="fw-bold text-primary"> + Add New Customer</a> {% endcomment %}
                     
                 </div>
 
@@ -255,8 +255,8 @@ Key: {{ key }}, Value: {{ value }}
 
 {% endif %} {% endcomment %}
         <div class="container text-end">
-            <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a>
-            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Order</button>
+            {% comment %} <a href="" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Send Mail</a> {% endcomment %}
+            <button type="sumbit" class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Place Sales Order</button>
         </div>
     </form>
 </div>

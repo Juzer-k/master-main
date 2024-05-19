@@ -19,17 +19,17 @@
 
             {% comment %} Customer Detail {% endcomment %}
             <div class="col-6">
-                <h3 class="my-3 fw-bold">Customer Detail</h3>
+                <h3 class="my-3 fw-bold">Unit Detail</h3>
 
                 <div class="mb-3">
                     <label class="form-label">Type* :</label>
                     {% comment %} <input type="text" class="form-control" name="manufacturer_unit_name" autofocus> {% endcomment %}
                       <select class="form-control" onchange="" name="unit_type" id="" autofocus  required>
-                        <option value="">Select Customer Type</option>
+                        <option value="">Select Type</option>
                         <option value="Distributer">Distributer</option>
                         <option value="Manufacturer">Manufacturer</option>
-                        <option value="Trader">Trader</option>
-                        <option value="Customer">Customer</option>
+                        {% comment %} <option value="Trader">Trader</option>
+                        <option value="Customer">Customer</option> {% endcomment %}
                     </select>  
                 </div>
 
@@ -64,7 +64,7 @@
                 </div> {% endcomment %}
 
                 <div class="mb-3">
-                    <label class="form-label">Customer Units :</label>
+                    <label class="form-label">Manufacturing Units* :</label>
                     <input type="text" class="form-control" name="manufacturer">
                 </div>
 
@@ -85,8 +85,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label">Phone :</label>
-                    <input type="number" class="form-control" name="phone_number" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                    <label class="form-label">Phone* :</label>
+                    <input type="number" class="form-control" name="phone_number" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                 </div>
 
                 <div class="mb-3">
@@ -213,7 +213,7 @@
         </div> {% endcomment %}
     </div>
     <div class="container text-end">
-        <button class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Save</button>
+        <button class="btn btn-lg fw-bold" style="background-color:#ed8b00;">Create Unit</button>
     </div>
 </form>
 <br><br><br>

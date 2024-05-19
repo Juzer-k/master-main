@@ -10,11 +10,11 @@
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="{% static 'css/style.css'%}">
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
   <link href="https://fonts.cdnfonts.com/css/hyperion-sunset-brk" rel="stylesheet">
 
   <link rel="icon" type="image/x-icon" href="{% static 'images/icon/favicon.ico'%}">
-  <title>Tech Maadhyam | {% block title %}{% endblock title %}</title>
+  <title>industryHub | {% block title %}{% endblock title %}</title>
 </head>
 
 <body class="container-fluid">
@@ -23,10 +23,13 @@
     <div class="col-2" style="background-color:black;">
       <div class="container text-center">
 
-        <img src="{%static 'images/tm_logo.png'%}" class="mx-auto d-block mt-5" alt="" width="100%">
+        <img src="{%static 'images/industryhub logo 2.jpg'%}" class="mx-auto d-block mt-5" alt="" width="100%">
         <br><br>
-        <a href="{% url 'manufacturer-dashboard' %}" class="fw-bold w-100 btn text-dark my-3 fs-5"
-          style="background-color:#ed8b00;">Dashboard</a><br>
+        <a href="{% url 'manufacturer-dash' %}" class="fw-bold w-100 btn text-dark my-3 fs-5"
+          style="background-color:#ed8b00;">Dashboard</a>
+
+          <a href="{% url 'manufacturer-quotation-dashboard' %}" style="background-color:#ed8b00;" class="fw-bold w-100 btn text-dark my-3 fs-5"> Quotation</a>
+
 
           {% comment %} dropdown {% endcomment %}
         <div class="side mb-3 fs-5">
@@ -54,7 +57,7 @@
           </div>
         </div>
 
-        <div class="side mt-3">
+        {% comment %} <div class="side mt-3">
           <button class="dropdown-btn btn fw-bold text-center text-dark fs-5" style="background-color:#ed8b00;">Vendor Unit
             <i class="fa fa-caret-down"></i>
           </button>
@@ -64,10 +67,10 @@
             <a href="{% url 'add-purchase-order' %}">Purchase Order</a>
             <a href="{% url 'purchase-order-dashboard' %}">Purchase Order Dashboard</a>
           </div>
-        </div>
+        </div> {% endcomment %}
         {% comment %} <a href="{% url 'vendor-unit-dashboard' %}" class="fw-bold w-100 btn text-dark my-3"
           style="background-color:#ed8b00;">Vendor Unit DashBoard</a><br> {% endcomment %}
-        <a href="" class="fw-bold w-100 btn text-dark my-3 fs-5" style="background-color:#ed8b00;">Report</a><br>
+        {% comment %} <a href="" class="fw-bold w-100 btn text-dark my-3 fs-5" style="background-color:#ed8b00;">Report</a><br> {% endcomment %}
         {% comment %} <a href="" class="fw-bold w-100 btn btn-sm text-dark my-3"
           style="background-color:#ed8b00;">Search Order</a><br> {% endcomment %}
 
@@ -77,8 +80,8 @@
     <div class="col-10">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'manufacturer-dashboard' %}"
-            style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;">TECH MAADHYAM <span
+          <a class="navbar-brand fw-bold" href="{% url 'manufacturer-dash' %}"
+            style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;">industryHub <span
               class="fw-bold text-dark" style="font-family: Arial;">| {{request.user.username|capfirst}}</span></a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -95,7 +98,7 @@
               </ul>
             </div>
 
-            <form class="d-flex" method="get" action="/manufacturer-search-result">
+            {% comment %} <form class="d-flex" method="get" action="/manufacturer-search-result">
               <input class="form-control me-2" type="search" placeholder="Search Order" aria-label="Search"
                 name="search_query">
               <button class="btn btn-dark" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -103,7 +106,7 @@
                   <path
                     d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                 </svg></button>
-            </form>
+            </form> {% endcomment %}
 
             <div id="mySidenav" class="sidenav">
               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -140,8 +143,8 @@
 
 
 
-    <div class="text-center p-5" style="background-color:black;">
-      <p style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;"> &copy; TECH MAADHYAM</p>
+    <div class="text-center p-5 fw-bold" style="background-color:black;">
+      <p style="font-family: 'Hyperion Sunset BRK', sans-serif; color:#ed8b00;"> &copy; industryHub</p>
     </div>
 
 

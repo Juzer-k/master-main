@@ -67,7 +67,7 @@
     <div class="table-responsive">
       <table class="table align-middle table-bordered">
         <thead>
-          <tr style="text-transform: uppercase;" class="bg-info">
+          <tr style="text-transform: uppercase; background-color:#ed8b00;" >
             <th style="width: 200px; min-width: 200px;">Order Number</th>
             <th class="" style="width: 200px; min-width: 200px;">Manufacturer Unit</th>
             <th class="" style="width: 200px; min-width: 200px;">Order Date</th>
@@ -120,7 +120,7 @@
             <td>{{order.payment_term}}</td>
             {% comment %} <td>{{order.delivery_method|capfirst}}</td> {% endcomment %}
             <td>{{order.customer_sales_person|upper}}</td>
-
+  
             <td class="w-25">
              
               <a href="{% url 'sales-order-update' order.id%}" class="btn fw-bold btn-sm" style="background-color:#ed8b00;">&#128393;<a>
@@ -160,7 +160,7 @@
            <div class="table-responsive">
             <table class="table align-middle table-bordered">
               <thead>
-                <tr style="text-transform: uppercase;" class="bg-info">
+                <tr style="text-transform: uppercase; background-color:#ed8b00;">
                   <th scope="col" style="width: 200px; min-width: 200px;">Order Number</th>
                   <th scope="col" style="width: 200px; min-width: 200px;" class="w-25">Manufacturing Unit</th>
                   <th scope="col" style="width: 200px; min-width: 200px;">Order Date</th>

@@ -26,7 +26,7 @@
                 </div> {% endcomment %}
                 
                 <div class="mb-3">
-                    <label class="form-label">Customer* :</label>
+                    <label class="form-label">Unit* :</label>
                     {% comment %} <div id="list1" class="dropdown-check-list dropdown-toggle" data-toggle="dropdown">
                         <input type="button" class="anchor" value="Select Manufacturer / Distributer Unit Name">
                         <ul class="items dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -48,12 +48,12 @@
 
                 <div class="mb-3">
                     <label class="form-label">Status* :</label>
-                      <select class="form-control unitType" onchange="" name="status" autofocus  required>
+                      <select class="form-control unitType" onchange="" name="status" autofocus  required readonly>
                           <option value="{{quotation.status}}" selected>{{quotation.status}}</option>
-                          <option value="Placed">Placed</option>
+                          {% comment %} <option value="Placed">Placed</option>
                           <option value="Accepted">Accepted</option>
                           <option value="Rejected">Rejected</option>
-                          <option value="Cancel">Cancel</option>
+                          <option value="Cancel">Cancel</option> {% endcomment %}
                     </select>
                 </div>
                 
@@ -68,7 +68,7 @@
 
             <table class="table align-middle">
                 <thead>
-                    <tr class="bg-info">
+                    <tr style="background-color:#ed8b00;">
                         {% comment %} <th scope="col">mf unit</th> {% endcomment %}
                         <th scope="col">Product Name & Product Length*</th>
                         {% comment %} <th scope="col">Length of Product</th> {% endcomment %}
@@ -87,13 +87,13 @@
                         
                         <td scope="row">
                             <select name="product_name" value="{{i.id}}"
-                                    class="productName product form-control my-2">
+                                    class="productName product form-control my-2" readonly>
                                 <option value="{{i.id}}">{{i.tempproduct.item_name}}</option>
                                 {% comment %} <option value="Select Product">Select Product</option>
                                 {% for i in product %}
                                 <option value="{{i.id}}">{{i.item_name}}</option>
                                 {% endfor %} {% endcomment %}
-                            </select>
+                            </select> 
                         </td>
                         
                         
